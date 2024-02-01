@@ -88,8 +88,38 @@
             </div>
         </div>
     </div>
+    <div id="message" style="display: none; position: fixed; left: 50%; top: 50%; transform: translate(-50%, -50%); background-color: #f8d7da; color: #721c24; padding: 20px; border-radius: 5px;">
+        <p id="message-text"></p>
+    </div>
     <script src="https://unpkg.com/node-forge/dist/forge.min.js"></script>
     <script>
+        function showMessage(text, isError) {
+            var messageElement = document.getElementById('message');
+            var messageTextElement = document.getElementById('message-text');
+
+            messageTextElement.textContent = text;
+            messageElement.style.backgroundColor = isError ? '#f8d7da' : '#d4edda';
+            messageElement.style.color = isError ? '#721c24' : '#155724';
+            messageElement.style.display = 'block';
+
+            if (isError) {
+                setTimeout(function() {
+                    messageElement.style.display = 'none';
+                }, 3000);
+            }
+        }
+
+        function setTokenWithExpiry(token) {
+            const now = new Date();
+            const expiresInMs = 3 * 60 * 60 * 1000; // 3 hours in milliseconds
+            const expiry = now.getTime() + expiresInMs;
+            const item = {
+                value: token,
+                expiry: expiry,
+            };
+            localStorage.setItem('token', JSON.stringify(item));
+        }
+
         function encryptMessage(message) {
             var publicKey = "-----BEGIN PUBLIC KEY-----" +
                 "MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEA5W2SEyZSlP2zBI1Sn8Gd" +
@@ -116,8 +146,16 @@
             image.style.height = size + 'px';
         }
 
-        window.addEventListener('load', adjustImageSize);
         window.addEventListener('resize', adjustImageSize);
+        window.addEventListener('load', function() {
+            // 检查本地存储中是否存在 token
+            const token = localStorage.getItem('token');
+            if (token) {
+                // 跳转到 dashboard.html
+                window.location.href = 'dashboard.html';
+            }
+            adjustImageSize();
+        });
 
         document.getElementById('login-form').addEventListener('submit', function (event) {
             event.preventDefault();
@@ -139,18 +177,24 @@
                             Password: encryptedPassword
                         })
                     })
-                        .then(response => response.json())
-                        .then(data => {
-                            if (data.retcode === 0) {
-                                localStorage.setItem('token', 'Bearer ' + data.data);
-                                alert('登录成功');
-                            } else {
-                                alert('登录失败：' + data.message);
-                            }
-                        })
-                        .catch(error => {
-                            console.error('Error:', error);
-                        });
+                    .then(response => response.json())
+                    .then(data => {
+                        if (data.retcode === 0) {
+                            const token = 'Bearer ' + data.data;
+                            setTokenWithExpiry(token);
+                            localStorage.setItem('userEmail', email);
+                            showMessage('登录成功', false);
+                            setTimeout(function() {
+                                window.location.href = 'dashboard.html';
+                            }, 2000);
+                        } else {
+                            showMessage('登录失败：' + data.message, true);
+                        }
+                    })
+                    .catch(error => {
+                        console.error('Error:', error);
+                        showMessage('登录失败：' + error, true);
+                    });
                 })
                 .catch(error => {
                     console.error('Error:', error);
