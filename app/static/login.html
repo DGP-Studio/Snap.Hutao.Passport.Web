@@ -1,9 +1,9 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>登录页面</title>
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
-    <style>
+<title>登录页面</title>
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
+<style>
         body {
             background: linear-gradient(to right, pink, skyblue);
             height: 100vh;
@@ -59,38 +59,48 @@
     </style>
 </head>
 <body>
-    <div class="container">
-        <div class="card">
-            <div class="row no-gutters">
-                <div class="col-lg-6 col-md-12 d-flex align-items-center justify-content-center">
-                    <img id="login-image" class="card-img img-fluid" src="assets/HutaoIcon2-256.png" alt="Image">
-                </div>
-                <div class="col-lg-6 col-md-12 d-flex align-items-center">
-                    <div class="card-body">
-                        <h4 class="card-title text-center">登录</h4>
-                        <form id="login-form">
-                            <div class="form-group">
-                                <label for="exampleInputEmail1">邮箱地址</label>
-                                <input type="email" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="输入邮箱">
-                            </div>
-                            <div class="form-group">
-                                <label for="exampleInputPassword1">密码</label>
-                                <input type="password" class="form-control" id="exampleInputPassword1" placeholder="密码">
-                            </div>
-                            <button type="submit" class="btn btn-primary">登录</button>
-                        </form>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-    <script src="https://www.unpkg.com/jsencrypt/bin/jsencrypt.min.js"></script>
-    <script>
+<div class="container">
+<div class="card">
+<div class="row no-gutters">
+<div class="col-lg-6 col-md-12 d-flex align-items-center justify-content-center">
+<img id="login-image" class="card-img img-fluid" src="assets/HutaoIcon2-256.png" alt="Image">
+</div>
+<div class="col-lg-6 col-md-12 d-flex align-items-center">
+<div class="card-body">
+<h4 class="card-title text-center">登录</h4>
+<form id="login-form">
+<div class="form-group">
+<label for="exampleInputEmail1">邮箱地址</label>
+<input type="email" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="输入邮箱">
+</div>
+<div class="form-group">
+<label for="exampleInputPassword1">密码</label>
+<input type="password" class="form-control" id="exampleInputPassword1" placeholder="密码">
+</div>
+<button type="submit" class="btn btn-primary">登录</button>
+</form>
+</div>
+</div>
+</div>
+</div>
+</div>
+<script src="https://unpkg.com/node-forge/dist/forge.min.js"></script>
+<script>
         function encryptMessage(message) {
-            var publicKey = "MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEA5W2SEyZSlP2zBI1Sn8GdTwbZoXlUGNKyoVrY8SVYu9GMefdGZCrUQNkCG/Np8pWPmSSEFGd5oeug/oIMtCZQNOn0drlR+pul/XZ1KQhKmj/arWjN1XNok2qXF7uxhqD0JyNT/Fxy6QvzqIpBsM9S7ajm8/BOGlPG1SInDPaqTdTRTT30AuN+IhWEEFwT3Ctv1SmDupHs2Oan5qM7Y3uwb6K1rbnk5YokiV2FzHajGUymmSKXqtG1USZzwPqImpYb4Z0M/StPFWdsKqexBqMMmkXckI5O98GdlszEmQ0Ejv5Fx9fR2rXRwM76S4iZTfabYpiMbb4bM42mHMauupj69QIDAQAB";
-            var encrypt = new JSEncrypt();
-            encrypt.setPublicKey(publicKey);
-            return encrypt.encrypt(message);
+            var publicKey = "-----BEGIN PUBLIC KEY-----" +
+                            "MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEA5W2SEyZSlP2zBI1Sn8Gd" +
+                            "TwbZoXlUGNKyoVrY8SVYu9GMefdGZCrUQNkCG/Np8pWPmSSEFGd5oeug/oIMtCZQ" +
+                            "NOn0drlR+pul/XZ1KQhKmj/arWjN1XNok2qXF7uxhqD0JyNT/Fxy6QvzqIpBsM9S" +
+                            "7ajm8/BOGlPG1SInDPaqTdTRTT30AuN+IhWEEFwT3Ctv1SmDupHs2Oan5qM7Y3uw" +
+                            "b6K1rbnk5YokiV2FzHajGUymmSKXqtG1USZzwPqImpYb4Z0M/StPFWdsKqexBqMM" +
+                            "mkXckI5O98GdlszEmQ0Ejv5Fx9fR2rXRwM76S4iZTfabYpiMbb4bM42mHMauupj6" +
+                            "9QIDAQAB" +
+                            "-----END PUBLIC KEY-----";
+            const publicKeyObj = forge.pki.publicKeyFromPem(publicKey);
+            var encrypted = publicKeyObj.encrypt(message, 'RSA-OAEP', {
+              md: forge.md.sha1.create()
+            });
+            return forge.util.encode64(encrypted);
         }
 
         function adjustImageSize() {
@@ -127,7 +137,7 @@
                     })
                     .then(response => response.json())
                     .then(data => {
-                        if (data.code === 0) {
+                        if (data.retcode === 0) {
                             localStorage.setItem('token', 'Bearer ' + data.data);
                             alert('登录成功');
                         } else {
