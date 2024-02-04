@@ -111,13 +111,11 @@
 
         function setTokenWithExpiry(token) {
             const now = new Date();
-            const expiresInMs = 3 * 60 * 60 * 1000; // 3 hours in milliseconds
+            const expiresInMs = 3 * 60 * 60 * 1000;
             const expiry = now.getTime() + expiresInMs;
-            const item = {
-                value: token,
-                expiry: expiry,
-            };
-            localStorage.setItem('token', JSON.stringify(item));
+
+            localStorage.setItem('token_exp', expiry.toString());
+            localStorage.setItem('token', token);
         }
 
         function encryptMessage(message) {
@@ -146,15 +144,64 @@
             image.style.height = size + 'px';
         }
 
+        function login(normalEmail, encryptedEmail, encryptedPassword) {
+            showMessage('正在登录中...', false);
+
+            fetch('https://homa.snapgenshin.com/Passport/Login', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({
+                    UserName: encryptedEmail,
+                    Password: encryptedPassword
+                })
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.retcode === 0) {
+                    const token = 'Bearer ' + data.data;
+                    setTokenWithExpiry(token);
+                    localStorage.setItem('userEmail', normalEmail);
+                    localStorage.setItem('e', encryptedEmail);
+                    localStorage.setItem('p', encryptedPassword);
+                    showMessage('登录成功', false);
+                    setTimeout(function() {
+                        window.location.href = 'dashboard.html';
+                    }, 2000);
+                } else {
+                    showMessage('登录失败：' + data.message, true);
+                }
+            })
+            .catch(error => {
+                console.error('Error:', error);
+                showMessage('登录失败：' + error, true);
+            });
+        }
+
         window.addEventListener('resize', adjustImageSize);
         window.addEventListener('load', function() {
-            // 检查本地存储中是否存在 token
             const token = localStorage.getItem('token');
-            if (token) {
-                // 跳转到 dashboard.html
+            const tokenExp = parseInt(localStorage.getItem('token_exp'), 10);
+
+            if (token && tokenExp && Date.now() < tokenExp) {
                 window.location.href = 'dashboard.html';
+            } else if (token && tokenExp && Date.now() >= tokenExp) {
+                const encryptedEmail = localStorage.getItem('e');
+                const encryptedPassword = localStorage.getItem('p');
+                const email = localStorage.getItem('userEmail');
+
+                if (!encryptedEmail || !encryptedPassword || !email) {
+                    showMessage('当前账号已登出', true);
+                    setTimeout(function() {
+                        showMessage('', false);
+                    }, 3000);
+                } else {
+                    login(email, encryptedEmail, encryptedPassword);
+                }
+            } else {
+                adjustImageSize();
             }
-            adjustImageSize();
         });
 
         document.getElementById('login-form').addEventListener('submit', function (event) {
@@ -165,36 +212,7 @@
 
             Promise.all([encryptMessage(email), encryptMessage(password)])
                 .then(([encryptedEmail, encryptedPassword]) => {
-                    console.log(encryptedEmail)
-                    console.log(encryptedPassword)
-                    fetch('https://homa.snapgenshin.com/Passport/Login', {
-                        method: 'POST',
-                        headers: {
-                            'Content-Type': 'application/json'
-                        },
-                        body: JSON.stringify({
-                            UserName: encryptedEmail,
-                            Password: encryptedPassword
-                        })
-                    })
-                    .then(response => response.json())
-                    .then(data => {
-                        if (data.retcode === 0) {
-                            const token = 'Bearer ' + data.data;
-                            setTokenWithExpiry(token);
-                            localStorage.setItem('userEmail', email);
-                            showMessage('登录成功', false);
-                            setTimeout(function() {
-                                window.location.href = 'dashboard.html';
-                            }, 2000);
-                        } else {
-                            showMessage('登录失败：' + data.message, true);
-                        }
-                    })
-                    .catch(error => {
-                        console.error('Error:', error);
-                        showMessage('登录失败：' + error, true);
-                    });
+                    login(email, encryptedEmail, encryptedPassword);
                 })
                 .catch(error => {
                     console.error('Error:', error);

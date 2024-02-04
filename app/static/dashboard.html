@@ -140,10 +140,7 @@
           let userEmailFromLocalStorage = localStorage.getItem("userEmail");
           document.getElementById("sidebarAvatar").src = "https://www.gravatar.com/avatar/" + hashEmail(userEmailFromLocalStorage);
         } else {
-          var tokenData = localStorage.getItem("token");
-          if (tokenData) {
-            var token = JSON.parse(tokenData).value;
-          }
+          var token = localStorage.getItem("token");
             fetch("https://homa.snapgenshin.com/Passport/UserInfo", {
             headers: {
               "Authorization": token
