@@ -114,8 +114,24 @@
             const expiresInMs = 3 * 60 * 60 * 1000;
             const expiry = now.getTime() + expiresInMs;
 
-            localStorage.setItem('token_exp', expiry.toString());
-            localStorage.setItem('token', token);
+            // Set token as a cookie
+            document.cookie = `token=${token}; expires=${new Date(expiry).toUTCString()}; path=/; domain=passport.snapgenshin.com`;
+        }
+
+        function getCookie(name) {
+            const value = `; ${document.cookie}`;
+            const parts = value.split(`; ${name}=`);
+            if (parts.length === 2) {
+                return parts.pop().split(';').shift();
+            }
+        }
+
+        function getTokenExp(token) {
+            const tokenParts = token.split(' ');
+            const tokenData = tokenParts[1];
+            const tokenPayload = tokenData.split('.')[1];
+            const payload = JSON.parse(atob(tokenPayload));
+            return payload.exp * 1000;
         }
 
         function encryptMessage(message) {
@@ -181,23 +197,26 @@
 
         window.addEventListener('resize', adjustImageSize);
         window.addEventListener('load', function() {
-            const token = localStorage.getItem('token');
-            const tokenExp = parseInt(localStorage.getItem('token_exp'), 10);
+            const token = getCookie('token');
 
-            if (token && tokenExp && Date.now() < tokenExp) {
-                window.location.href = 'dashboard.html';
-            } else if (token && tokenExp && Date.now() >= tokenExp) {
-                const encryptedEmail = localStorage.getItem('e');
-                const encryptedPassword = localStorage.getItem('p');
-                const email = localStorage.getItem('userEmail');
+            if (token) {
+                const tokenExp = getTokenExp(token);
 
-                if (!encryptedEmail || !encryptedPassword || !email) {
-                    showMessage('当前账号已登出', true);
-                    setTimeout(function() {
-                        showMessage('', false);
-                    }, 3000);
+                if (Date.now() < tokenExp) {
+                    window.location.href = 'dashboard.html';
                 } else {
-                    login(email, encryptedEmail, encryptedPassword);
+                    const encryptedEmail = localStorage.getItem('e');
+                    const encryptedPassword = localStorage.getItem('p');
+                    const email = localStorage.getItem('userEmail');
+
+                    if (!encryptedEmail || !encryptedPassword || !email) {
+                        showMessage('当前账号已登出', true);
+                        setTimeout(function() {
+                            showMessage('', false);
+                        }, 3000);
+                    } else {
+                        login(email, encryptedEmail, encryptedPassword);
+                    }
                 }
             } else {
                 adjustImageSize();

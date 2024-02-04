@@ -120,6 +120,10 @@
 
   <script>
     function hashEmail(email) {
+      if (!email) {
+        return 0;
+      }
+
       var hash = 0;
       for (var i = 0; i < email.length; i++) {
         hash = email.charCodeAt(i) + ((hash << 5) - hash);
@@ -140,8 +144,8 @@
           let userEmailFromLocalStorage = localStorage.getItem("userEmail");
           document.getElementById("sidebarAvatar").src = "https://www.gravatar.com/avatar/" + hashEmail(userEmailFromLocalStorage);
         } else {
-          var token = localStorage.getItem("token");
-            fetch("https://homa.snapgenshin.com/Passport/UserInfo", {
+          var token = getCookie("token");
+          fetch("https://homa.snapgenshin.com/Passport/UserInfo", {
             headers: {
               "Authorization": token
             }
@@ -169,8 +173,27 @@
     }
 
     function logout() {
+      deleteAllCookies();
       localStorage.clear();
       window.location.href = "login.html";
+    }
+
+    function getCookie(name) {
+      var matches = document.cookie.match(new RegExp('(?:^|; )' + name.replace(/([\.$?*|{}\(\)\[\]\\\/\+^])/g, '\\\\$1') + '=([^;]*)'));
+      return matches ? decodeURIComponent(matches[1]) : undefined;
+    }
+
+    function deleteAllCookies() {
+      var cookies = document.cookie.split(";");
+      console.log("cookies:", cookies);
+
+      for (var i = 0; i < cookies.length; i++) {
+        var cookie = cookies[i];
+        var eqPos = cookie.indexOf("=");
+        var name = eqPos > -1 ? cookie.substring(0, eqPos) : cookie;
+
+        document.cookie = name + "=;expires=Thu, 01 Jan 1970 00:00:00 GMT;domain=" + window.location.hostname + ";path=/";
+      }
     }
 
     window.onload = function () {
