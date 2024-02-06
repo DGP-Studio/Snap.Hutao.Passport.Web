@@ -2,246 +2,247 @@
 <html>
 
 <head>
-    <title>登录页面</title>
-    <meta charset="UTF-8">
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
-    <style>
-        body {
-            height: 100vh;
-            margin: 0;
-            background: linear-gradient(to right, pink, skyblue) no-repeat fixed;
-        }
+  <title>登录页面</title>
+  <meta charset="UTF-8">
+  <link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" rel="stylesheet">
+  <style>
+    body {
+      height: 100vh;
+      margin: 0;
+      background: linear-gradient(to right, pink, skyblue) no-repeat fixed;
+    }
 
-        .container {
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            height: 100%;
-        }
+    .container {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100%;
+    }
 
-        .card {
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            width: 80%;
-            min-height: 40vh;
-            border-radius: 15px;
-            overflow: hidden;
-        }
+    .card {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      width: 80%;
+      min-height: 40vh;
+      border-radius: 15px;
+      overflow: hidden;
+    }
 
-        .row {
-            width: 100%;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-        }
+    .row {
+      width: 100%;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
 
-        .card-body {
-            padding-left: 20%;
-            padding-right: 20%;
-        }
+    .card-body {
+      padding-left: 20%;
+      padding-right: 20%;
+    }
 
-        .card-img {
-            object-fit: contain;
-            width: 256px;
-            height: 256px;
-        }
+    .card-img {
+      object-fit: contain;
+      width: 256px;
+      height: 256px;
+    }
 
-        .form-control,
-        .btn {
-            width: 100%;
-            border-radius: 15px;
-        }
+    .form-control,
+    .btn {
+      width: 100%;
+      border-radius: 15px;
+    }
 
-        .btn {
-            background-color: #28a745;
-            border-color: #28a745;
-        }
-    </style>
+    .btn {
+      background-color: #28a745;
+      border-color: #28a745;
+    }
+  </style>
 </head>
 
 <body>
-    <div class="container">
-        <div class="card">
-            <div class="row no-gutters">
-                <div class="col-lg-6 col-md-12 d-flex align-items-center justify-content-center">
-                    <img id="login-image" class="card-img img-fluid" src="assets/HutaoIcon2-256.png" alt="Image">
-                </div>
-                <div class="col-lg-6 col-md-12 d-flex align-items-center">
-                    <div class="card-body">
-                        <h4 id="login-title" class="card-title text-center">登录</h4>
-                        <form id="login-form">
-                            <div class="form-group">
-                                <label id="email-label" for="exampleInputEmail1">邮箱地址</label>
-                                <input type="email" class="form-control" id="exampleInputEmail1"
-                                    aria-describedby="emailHelp" placeholder="输入邮箱">
-                            </div>
-                            <div class="form-group">
-                                <label id="password-label" for="exampleInputPassword1">密码</label>
-                                <input type="password" class="form-control" id="exampleInputPassword1" placeholder="密码">
-                            </div>
-                            <button id="login-button" type="submit" class="btn btn-primary">登录</button>
-                        </form>
-                    </div>
-                </div>
+<div class="container">
+  <div class="card">
+    <div class="row no-gutters">
+      <div class="col-lg-6 col-md-12 d-flex align-items-center justify-content-center">
+        <img alt="Image" class="card-img img-fluid" id="login-image" src="assets/HutaoIcon2-256.png">
+      </div>
+      <div class="col-lg-6 col-md-12 d-flex align-items-center">
+        <div class="card-body">
+          <h4 class="card-title text-center" id="login-title">登录</h4>
+          <form id="login-form">
+            <div class="form-group">
+              <label for="exampleInputEmail1" id="email-label">邮箱地址</label>
+              <input aria-describedby="emailHelp" class="form-control" id="exampleInputEmail1"
+                     placeholder="输入邮箱" type="email">
             </div>
+            <div class="form-group">
+              <label for="exampleInputPassword1" id="password-label">密码</label>
+              <input class="form-control" id="exampleInputPassword1" placeholder="密码" type="password">
+            </div>
+            <button class="btn btn-primary" id="login-button" type="submit">登录</button>
+          </form>
         </div>
+      </div>
     </div>
-    <div id="message" style="display: none; position: fixed; left: 50%; top: 50%; transform: translate(-50%, -50%); background-color: #f8d7da; color: #721c24; padding: 20px; border-radius: 5px;">
-        <p id="message-text"></p>
-    </div>
-    <div style="position: fixed; top: 10px; right: 10px;">
-        <button onclick="setLanguage('en')">English</button>
-        <button onclick="setLanguage('zh-cn')">中文（简体）</button>
-    </div>
-    <script src="https://unpkg.com/node-forge/dist/forge.min.js"></script>
-    <script src="assets/translate.js"></script>
-    <script>
-        function showMessage(text, isError) {
-            let messageElement = document.getElementById('message');
-            let messageTextElement = document.getElementById('message-text');
+  </div>
+</div>
+<div id="message"
+     style="display: none; position: fixed; left: 50%; top: 50%; transform: translate(-50%, -50%); background-color: #f8d7da; color: #721c24; padding: 20px; border-radius: 5px;">
+  <p id="message-text"></p>
+</div>
+<div style="position: fixed; top: 10px; right: 10px;">
+  <button onclick="setLanguage('en')">English</button>
+  <button onclick="setLanguage('zh-cn')">中文（简体）</button>
+</div>
+<script src="https://unpkg.com/node-forge/dist/forge.min.js"></script>
+<script src="assets/translate.js"></script>
+<script>
+  function showMessage(text, isError) {
+    let messageElement = document.getElementById('message');
+    let messageTextElement = document.getElementById('message-text');
 
-            messageTextElement.textContent = text;
-            messageElement.style.backgroundColor = isError ? '#f8d7da' : '#d4edda';
-            messageElement.style.color = isError ? '#721c24' : '#155724';
-            messageElement.style.display = 'block';
+    messageTextElement.textContent = text;
+    messageElement.style.backgroundColor = isError ? '#f8d7da' : '#d4edda';
+    messageElement.style.color = isError ? '#721c24' : '#155724';
+    messageElement.style.display = 'block';
 
-            if (isError) {
-                setTimeout(function() {
-                    messageElement.style.display = 'none';
-                }, 3000);
-            }
+    if (isError) {
+      setTimeout(function () {
+        messageElement.style.display = 'none';
+      }, 3000);
+    }
+  }
+
+  function setTokenWithExpiry(token) {
+    const now = new Date();
+    const expiresInMs = 3 * 60 * 60 * 1000;
+    const expiry = now.getTime() + expiresInMs;
+
+    // Set token as a cookie
+    document.cookie = `token=${token}; expires=${new Date(expiry).toUTCString()}; path=/; domain=${window.location.hostname}`;
+  }
+
+  function getCookie(name) {
+    const value = `; ${document.cookie}`;
+    const parts = value.split(`; ${name}=`);
+    if (parts.length === 2) {
+      return parts.pop().split(';').shift();
+    }
+  }
+
+  function getTokenExp(token) {
+    const tokenParts = token.split(' ');
+    const tokenData = tokenParts[1];
+    const tokenPayload = tokenData.split('.')[1];
+    const payload = JSON.parse(atob(tokenPayload));
+    return payload.exp * 1000;
+  }
+
+  function encryptMessage(message) {
+    let publicKey = "-----BEGIN PUBLIC KEY-----" +
+      "MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEA5W2SEyZSlP2zBI1Sn8Gd" +
+      "TwbZoXlUGNKyoVrY8SVYu9GMefdGZCrUQNkCG/Np8pWPmSSEFGd5oeug/oIMtCZQ" +
+      "NOn0drlR+pul/XZ1KQhKmj/arWjN1XNok2qXF7uxhqD0JyNT/Fxy6QvzqIpBsM9S" +
+      "7ajm8/BOGlPG1SInDPaqTdTRTT30AuN+IhWEEFwT3Ctv1SmDupHs2Oan5qM7Y3uw" +
+      "b6K1rbnk5YokiV2FzHajGUymmSKXqtG1USZzwPqImpYb4Z0M/StPFWdsKqexBqMM" +
+      "mkXckI5O98GdlszEmQ0Ejv5Fx9fR2rXRwM76S4iZTfabYpiMbb4bM42mHMauupj6" +
+      "9QIDAQAB" +
+      "-----END PUBLIC KEY-----";
+    const publicKeyObj = forge.pki.publicKeyFromPem(publicKey);
+    let encrypted = publicKeyObj.encrypt(message, 'RSA-OAEP', {
+      md: forge.md.sha1.create()
+    });
+    return forge.util.encode64(encrypted);
+  }
+
+  function adjustImageSize() {
+    let container = document.querySelector('.container');
+    let image = document.querySelector('#login-image');
+    let size = Math.min(container.offsetWidth, container.offsetHeight) * 0.35;
+    size = Math.min(size, 256);
+    image.style.width = size + 'px';
+    image.style.height = size + 'px';
+  }
+
+  function login(normalEmail, encryptedEmail, encryptedPassword) {
+    showMessage('正在登录中...', false);
+
+    fetch('https://homa.snapgenshin.com/Passport/Login', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({
+        UserName: encryptedEmail,
+        Password: encryptedPassword
+      })
+    })
+      .then(response => response.json())
+      .then(data => {
+        if (data.retcode === 0) {
+          const token = 'Bearer ' + data.data;
+          setTokenWithExpiry(token);
+          localStorage.setItem('userEmail', normalEmail);
+          localStorage.setItem('e', encryptedEmail);
+          localStorage.setItem('p', encryptedPassword);
+          showMessage('登录成功', false);
+          setTimeout(function () {
+            window.location.href = 'dashboard.html';
+          }, 2000);
+        } else {
+          showMessage('登录失败：' + data.message, true);
         }
+      })
+      .catch(error => {
+        console.error('Error:', error);
+        showMessage('登录失败：' + error, true);
+      });
+  }
 
-        function setTokenWithExpiry(token) {
-            const now = new Date();
-            const expiresInMs = 3 * 60 * 60 * 1000;
-            const expiry = now.getTime() + expiresInMs;
+  window.addEventListener('resize', adjustImageSize);
+  window.addEventListener('load', function () {
+    const token = getCookie('token');
 
-            // Set token as a cookie
-            document.cookie = `token=${token}; expires=${new Date(expiry).toUTCString()}; path=/; domain=${window.location.hostname}`;
+    if (token) {
+      const tokenExp = getTokenExp(token);
+
+      if (Date.now() < tokenExp) {
+        window.location.href = 'dashboard.html';
+      } else {
+        const encryptedEmail = localStorage.getItem('e');
+        const encryptedPassword = localStorage.getItem('p');
+        const email = localStorage.getItem('userEmail');
+
+        if (!encryptedEmail || !encryptedPassword || !email) {
+          showMessage('当前账号已登出', true);
+          setTimeout(function () {
+            showMessage('', false);
+          }, 3000);
+        } else {
+          login(email, encryptedEmail, encryptedPassword);
         }
+      }
+    } else {
+      adjustImageSize();
+    }
+  });
 
-        function getCookie(name) {
-            const value = `; ${document.cookie}`;
-            const parts = value.split(`; ${name}=`);
-            if (parts.length === 2) {
-                return parts.pop().split(';').shift();
-            }
-        }
+  document.getElementById('login-form').addEventListener('submit', function (event) {
+    event.preventDefault();
 
-        function getTokenExp(token) {
-            const tokenParts = token.split(' ');
-            const tokenData = tokenParts[1];
-            const tokenPayload = tokenData.split('.')[1];
-            const payload = JSON.parse(atob(tokenPayload));
-            return payload.exp * 1000;
-        }
+    let email = document.getElementById('exampleInputEmail1').value;
+    let password = document.getElementById('exampleInputPassword1').value;
 
-        function encryptMessage(message) {
-            let publicKey = "-----BEGIN PUBLIC KEY-----" +
-                "MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEA5W2SEyZSlP2zBI1Sn8Gd" +
-                "TwbZoXlUGNKyoVrY8SVYu9GMefdGZCrUQNkCG/Np8pWPmSSEFGd5oeug/oIMtCZQ" +
-                "NOn0drlR+pul/XZ1KQhKmj/arWjN1XNok2qXF7uxhqD0JyNT/Fxy6QvzqIpBsM9S" +
-                "7ajm8/BOGlPG1SInDPaqTdTRTT30AuN+IhWEEFwT3Ctv1SmDupHs2Oan5qM7Y3uw" +
-                "b6K1rbnk5YokiV2FzHajGUymmSKXqtG1USZzwPqImpYb4Z0M/StPFWdsKqexBqMM" +
-                "mkXckI5O98GdlszEmQ0Ejv5Fx9fR2rXRwM76S4iZTfabYpiMbb4bM42mHMauupj6" +
-                "9QIDAQAB" +
-                "-----END PUBLIC KEY-----";
-            const publicKeyObj = forge.pki.publicKeyFromPem(publicKey);
-            let encrypted = publicKeyObj.encrypt(message, 'RSA-OAEP', {
-                md: forge.md.sha1.create()
-            });
-            return forge.util.encode64(encrypted);
-        }
-
-        function adjustImageSize() {
-            let container = document.querySelector('.container');
-            let image = document.querySelector('#login-image');
-            let size = Math.min(container.offsetWidth, container.offsetHeight) * 0.35;
-            size = Math.min(size, 256);
-            image.style.width = size + 'px';
-            image.style.height = size + 'px';
-        }
-
-        function login(normalEmail, encryptedEmail, encryptedPassword) {
-            showMessage('正在登录中...', false);
-
-            fetch('https://homa.snapgenshin.com/Passport/Login', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json'
-                },
-                body: JSON.stringify({
-                    UserName: encryptedEmail,
-                    Password: encryptedPassword
-                })
-            })
-            .then(response => response.json())
-            .then(data => {
-                if (data.retcode === 0) {
-                    const token = 'Bearer ' + data.data;
-                    setTokenWithExpiry(token);
-                    localStorage.setItem('userEmail', normalEmail);
-                    localStorage.setItem('e', encryptedEmail);
-                    localStorage.setItem('p', encryptedPassword);
-                    showMessage('登录成功', false);
-                    setTimeout(function() {
-                        window.location.href = 'dashboard.html';
-                    }, 2000);
-                } else {
-                    showMessage('登录失败：' + data.message, true);
-                }
-            })
-            .catch(error => {
-                console.error('Error:', error);
-                showMessage('登录失败：' + error, true);
-            });
-        }
-
-        window.addEventListener('resize', adjustImageSize);
-        window.addEventListener('load', function() {
-            const token = getCookie('token');
-
-            if (token) {
-                const tokenExp = getTokenExp(token);
-
-                if (Date.now() < tokenExp) {
-                    window.location.href = 'dashboard.html';
-                } else {
-                    const encryptedEmail = localStorage.getItem('e');
-                    const encryptedPassword = localStorage.getItem('p');
-                    const email = localStorage.getItem('userEmail');
-
-                    if (!encryptedEmail || !encryptedPassword || !email) {
-                        showMessage('当前账号已登出', true);
-                        setTimeout(function() {
-                            showMessage('', false);
-                        }, 3000);
-                    } else {
-                        login(email, encryptedEmail, encryptedPassword);
-                    }
-                }
-            } else {
-                adjustImageSize();
-            }
-        });
-
-        document.getElementById('login-form').addEventListener('submit', function (event) {
-            event.preventDefault();
-
-            let email = document.getElementById('exampleInputEmail1').value;
-            let password = document.getElementById('exampleInputPassword1').value;
-
-            Promise.all([encryptMessage(email), encryptMessage(password)])
-                .then(([encryptedEmail, encryptedPassword]) => {
-                    login(email, encryptedEmail, encryptedPassword);
-                })
-                .catch(error => {
-                    console.error('Error:', error);
-                });
-        });
-    </script>
+    Promise.all([encryptMessage(email), encryptMessage(password)])
+      .then(([encryptedEmail, encryptedPassword]) => {
+        login(email, encryptedEmail, encryptedPassword);
+      })
+      .catch(error => {
+        console.error('Error:', error);
+      });
+  });
+</script>
 </body>
 
 </html>
