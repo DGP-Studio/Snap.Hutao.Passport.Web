@@ -1,0 +1,1 @@
+HOSTNAME = "passport.snapgenshin.cn"

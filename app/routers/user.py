@@ -1,17 +1,15 @@
-from fastapi import APIRouter, Request
-from pydantic import BaseModel
-
-
-class LoginData(BaseModel):
-    username: str
-    encoded_password: str
+from fastapi import APIRouter, Response
+from fastapi.responses import RedirectResponse
+from app.config import HOSTNAME
 
 
 router = APIRouter(prefix="/users", tags=["users"])
 
 
-@router.post("/login")
-async def login(login_request: LoginData):
-    login_request = login_request.dict()
-    print(login_request["username"], login_request["encoded_password"])
-    return None
+# Login with GitHub
+@router.get("/login", response_class=RedirectResponse)
+async def login_with_github(token: str):
+    response = RedirectResponse(url="/dashboard.html", status_code=302)
+    response.set_cookie(key="token", value=token, max_age=60*60*3, httponly=True, domain=HOSTNAME)
+    return response
+

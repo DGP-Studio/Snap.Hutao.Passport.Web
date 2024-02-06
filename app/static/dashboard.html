@@ -113,6 +113,7 @@
           <p class="user-info"><strong>是否为开发人员：</strong> <span id="isDeveloper">Loading...</span></p>
           <p class="user-info"><strong>是否为维护人员：</strong> <span id="isMaintainer">Loading...</span></p>
           <p class="user-info"><strong>胡桃云过期时间：</strong> <span id="gachaLogExpire">Loading...</span></p>
+          <p class="user-info"><strong>GitHub 绑定状态：</strong> <span id="githubStatus">Loading...</span></p>
         </div>
       </div>
     </div>
@@ -157,8 +158,27 @@
             })
             .catch(error => console.log(error));
         }
-      }
-    }
+
+        // 请求 GitHub 授权状态
+        fetch("https://homa.snapgenshin.com/OAuth/Github/AuthorizationStatus", {
+          headers: {
+            "Authorization": token
+          }
+        })
+          .then(response => response.json())
+          .then(data => {
+            // 更新绑定状态
+            var isAuthorized = data.data.IsAuthorized;
+            var githubStatus = document.getElementById("githubStatus");
+            if (isAuthorized) {
+              githubStatus.textContent = "已绑定";
+            } else {
+              githubStatus.textContent = "未绑定";
+            }
+          })
+          .catch(error => console.log(error));
+          }
+        }
 
     function updateUserInfo(data) {
       let userEmailFromLocalStorage = localStorage.getItem("userEmail");
@@ -178,9 +198,22 @@
       window.location.href = "login.html";
     }
 
-    function getCookie(name) {
-      var matches = document.cookie.match(new RegExp('(?:^|; )' + name.replace(/([\.$?*|{}\(\)\[\]\\\/\+^])/g, '\\\\$1') + '=([^;]*)'));
-      return matches ? decodeURIComponent(matches[1]) : undefined;
+    function getCookie(cname) {
+      let name = cname + "=";
+      console.log("document.cookie:", document.cookie);
+      console.log("Checking:", name);
+      let decodedCookie = decodeURIComponent(document.cookie);
+      let ca = decodedCookie.split(';');
+      for(let i = 0; i <ca.length; i++) {
+        let c = ca[i];
+        while (c.charAt(0) == ' ') {
+          c = c.substring(1);
+        }
+        if (c.indexOf(name) == 0) {
+          return c.substring(name.length, c.length);
+        }
+      }
+      return "";
     }
 
     function deleteAllCookies() {
