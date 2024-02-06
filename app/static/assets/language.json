@@ -1,20 +1,20 @@
 {
-  "en": {
-    "loginTitle": "Login",
-    "emailLabel": "Email Address",
-    "passwordLabel": "Password",
-    "loginButton": "Login",
-    "loginSuccessMessage": "Login successful",
-    "loginFailureMessage": "Login failed: {errorMessage}",
-    "loggingInMessage": "Logging in..."
-  },
-  "zh-cn": {
-    "loginTitle": "登录",
-    "emailLabel": "邮箱地址",
-    "passwordLabel": "密码",
-    "loginButton": "登录",
-    "loginSuccessMessage": "登录成功",
-    "loginFailureMessage": "登录失败：{errorMessage}",
-    "loggingInMessage": "正在登录中..."
-  }
+	"en": {
+		"loginTitle": "Login",
+		"emailLabel": "Email Address",
+		"passwordLabel": "Password",
+		"loginButton": "Login",
+		"loginSuccessMessage": "Login successful",
+		"loginFailureMessage": "Login failed: {errorMessage}",
+		"loggingInMessage": "Logging in..."
+	},
+	"zh-cn": {
+		"loginTitle": "登录",
+		"emailLabel": "邮箱地址",
+		"passwordLabel": "密码",
+		"loginButton": "登录",
+		"loginSuccessMessage": "登录成功",
+		"loginFailureMessage": "登录失败：{errorMessage}",
+		"loggingInMessage": "正在登录中..."
+	}
 }

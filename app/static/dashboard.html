@@ -2,282 +2,282 @@
 <html lang="en">
 
 <head>
-  <meta charset="UTF-8">
-  <meta content="width=device-width, initial-scale=1.0" name="viewport">
-  <link href="https://cdn.jsdelivr.net/npm/tailwindcss/dist/tailwind.min.css" rel="stylesheet">
-  <script src="https://cdn.jsdelivr.net/npm/crypto-js/crypto-js.js"></script>
-  <title>User Dashboard</title>
-  <style>
-    .sidebar {
-      height: 100vh;
-    }
+	<meta charset="UTF-8">
+	<meta content="width=device-width, initial-scale=1.0" name="viewport">
+	<link href="https://cdn.jsdelivr.net/npm/tailwindcss/dist/tailwind.min.css" rel="stylesheet">
+	<script src="https://cdn.jsdelivr.net/npm/crypto-js/crypto-js.js"></script>
+	<title>User Dashboard</title>
+	<style>
+		.sidebar {
+			height: 100vh;
+		}
 
-    .card {
-      border-radius: 8px;
-      height: 90vh;
-    }
+		.card {
+			border-radius: 8px;
+			height: 90vh;
+		}
 
-    .card p {
-      line-height: 1.5;
-    }
+		.card p {
+			line-height: 1.5;
+		}
 
-    .user-avatar {
-      width: 64px;
-      height: 64px;
-    }
+		.user-avatar {
+			width: 64px;
+			height: 64px;
+		}
 
-    .user-info {
-      font-size: 1rem;
-    }
-  </style>
+		.user-info {
+			font-size: 1rem;
+		}
+	</style>
 </head>
 
 <body class="bg-gray-100">
 <div class="flex">
-  <!-- Sidebar -->
-  <div class="bg-gray-200 w-1/4 p-4 sidebar">
-    <div class="mb-4">
-      <h1 class="text-2xl font-bold">Hutao Passport</h1>
-    </div>
-    <nav>
-      <ul>
-        <li class="mb-4">
-          <a class="flex items-center text-gray-700 hover:text-gray-900" href="#" onclick="showContent('我的信息')">
-            <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24"
-                 xmlns="http://www.w3.org/2000/svg">
-              <path d="M4 6h16M4 12h16M4 18h16" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"></path>
-            </svg>
-            <span class="ml-1">我的信息</span>
-          </a>
-        </li>
-        <li class="mb-4">
-          <a class="flex items-center text-gray-700 hover:text-gray-900" href="#" onclick="showContent('账号安全')">
-            <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24"
-                 xmlns="http://www.w3.org/2000/svg">
-              <path d="M13 10V3L4 14h7v7l9-11h-7z" stroke-linecap="round" stroke-linejoin="round"
-                    stroke-width="2"></path>
-            </svg>
-            <span class="ml-1">账号安全</span>
-          </a>
-        </li>
-        <li class="mb-4">
-          <a class="flex items-center text-gray-700 hover:text-gray-900" href="#" onclick="showContent('胡桃云')">
-            <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24"
-                 xmlns="http://www.w3.org/2000/svg">
-              <path d="M12 14l9-5-9-5-9 5 9 5z" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"></path>
-              <path d="M12 14v7M12 14l-9-5 9-5 9 5-9 5z" stroke-linecap="round" stroke-linejoin="round"
-                    stroke-width="2"></path>
-            </svg>
-            <span class="ml-1">胡桃云</span>
-          </a>
-        </li>
-        <li class="mb-4">
-          <a class="flex items-center text-gray-700 hover:text-gray-900" href="#" onclick="showContent('管理工具')">
-            <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24"
-                 xmlns="http://www.w3.org/2000/svg">
-              <path d="M12 20h9" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"></path>
-              <path d="M12 4h9" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"></path>
-              <path d="M4.93 12H2" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"></path>
-              <path d="M15.93 12h2.02" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"></path>
-              <path d="M4.93 4L2 6.92" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"></path>
-              <path d="M15.93 20L18.85 22.92" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"></path>
-              <path d="M8.47 14.47L10.76 16.76" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"></path>
-              <path d="M3 10h.01" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"></path>
-              <path d="M3 14h.01" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"></path>
-              <path d="M20 10h.01" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"></path>
-              <path d="M20 14h.01" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"></path>
-              <path d="M16 10h.01" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"></path>
-              <path d="M16 14h.01" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"></path>
-            </svg>
-            <span class="ml-1">管理工具</span>
-          </a>
-        </li>
-        <li class="mb-4">
-          <a class="flex items-center text-gray-700 hover:text-gray-900" href="#" onclick="logout()">
-            <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24"
-                 xmlns="http://www.w3.org/2000/svg">
-              <path d="M15 19l-7-7 7-7" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"></path>
-            </svg>
-            <span class="ml-1">注销</span>
-          </a>
-        </li>
-      </ul>
-    </nav>
-    <div class="mt-auto">
-      <div class="flex items-center">
-        <img alt="User Avatar" class="w-8 h-8 rounded-full mr-2" id="sidebarAvatar"
-             src="https://via.placeholder.com/40">
-        <span class="text-gray-700" id="sidebarUsername">Loading</span>
-      </div>
-    </div>
-  </div>
+	<!-- Sidebar -->
+	<div class="bg-gray-200 w-1/4 p-4 sidebar">
+		<div class="mb-4">
+			<h1 class="text-2xl font-bold">Hutao Passport</h1>
+		</div>
+		<nav>
+			<ul>
+				<li class="mb-4">
+					<a class="flex items-center text-gray-700 hover:text-gray-900" href="#" onclick="showContent('我的信息')">
+						<svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24"
+								 xmlns="http://www.w3.org/2000/svg">
+							<path d="M4 6h16M4 12h16M4 18h16" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"></path>
+						</svg>
+						<span class="ml-1">我的信息</span>
+					</a>
+				</li>
+				<li class="mb-4">
+					<a class="flex items-center text-gray-700 hover:text-gray-900" href="#" onclick="showContent('账号安全')">
+						<svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24"
+								 xmlns="http://www.w3.org/2000/svg">
+							<path d="M13 10V3L4 14h7v7l9-11h-7z" stroke-linecap="round" stroke-linejoin="round"
+										stroke-width="2"></path>
+						</svg>
+						<span class="ml-1">账号安全</span>
+					</a>
+				</li>
+				<li class="mb-4">
+					<a class="flex items-center text-gray-700 hover:text-gray-900" href="#" onclick="showContent('胡桃云')">
+						<svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24"
+								 xmlns="http://www.w3.org/2000/svg">
+							<path d="M12 14l9-5-9-5-9 5 9 5z" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"></path>
+							<path d="M12 14v7M12 14l-9-5 9-5 9 5-9 5z" stroke-linecap="round" stroke-linejoin="round"
+										stroke-width="2"></path>
+						</svg>
+						<span class="ml-1">胡桃云</span>
+					</a>
+				</li>
+				<li class="mb-4">
+					<a class="flex items-center text-gray-700 hover:text-gray-900" href="#" onclick="showContent('管理工具')">
+						<svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24"
+								 xmlns="http://www.w3.org/2000/svg">
+							<path d="M12 20h9" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"></path>
+							<path d="M12 4h9" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"></path>
+							<path d="M4.93 12H2" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"></path>
+							<path d="M15.93 12h2.02" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"></path>
+							<path d="M4.93 4L2 6.92" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"></path>
+							<path d="M15.93 20L18.85 22.92" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"></path>
+							<path d="M8.47 14.47L10.76 16.76" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"></path>
+							<path d="M3 10h.01" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"></path>
+							<path d="M3 14h.01" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"></path>
+							<path d="M20 10h.01" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"></path>
+							<path d="M20 14h.01" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"></path>
+							<path d="M16 10h.01" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"></path>
+							<path d="M16 14h.01" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"></path>
+						</svg>
+						<span class="ml-1">管理工具</span>
+					</a>
+				</li>
+				<li class="mb-4">
+					<a class="flex items-center text-gray-700 hover:text-gray-900" href="#" onclick="logout()">
+						<svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24"
+								 xmlns="http://www.w3.org/2000/svg">
+							<path d="M15 19l-7-7 7-7" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"></path>
+						</svg>
+						<span class="ml-1">注销</span>
+					</a>
+				</li>
+			</ul>
+		</nav>
+		<div class="mt-auto">
+			<div class="flex items-center">
+				<img alt="User Avatar" class="w-8 h-8 rounded-full mr-2" id="sidebarAvatar"
+						 src="https://via.placeholder.com/40">
+				<span class="text-gray-700" id="sidebarUsername">Loading</span>
+			</div>
+		</div>
+	</div>
 
-  <!-- Main Content -->
-  <div class="flex-1 p-4">
-    <h1 class="text-2xl font-bold mb-4" id="contentTitle">我的信息</h1>
-    <div class="card p-4 bg-white shadow">
-      <div>
-        <img alt="User Avatar" class="user-avatar rounded-full mb-4" id="userAvatar"
-             src="https://via.placeholder.com/40">
-        <p class="user-info"><strong>邮箱：</strong> <span id="userEmail">Loading...</span></p>
-        <p class="user-info"><strong>是否为开发人员：</strong> <span id="isDeveloper">Loading...</span></p>
-        <p class="user-info"><strong>是否为维护人员：</strong> <span id="isMaintainer">Loading...</span></p>
-        <p class="user-info"><strong>胡桃云过期时间：</strong> <span id="gachaLogExpire">Loading...</span></p>
-        <p class="user-info"><strong>GitHub 绑定状态：</strong> <span id="githubStatus">Loading...</span></p>
-        <button class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded" id="bindGithub"
-                onclick="BindGithub()" style="display: none">绑定 GitHub
-        </button>
-        <button class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded" id="unbindGithub"
-                onclick="UnbindGithub()" style="display: none">解绑 GitHub
-        </button>
-      </div>
-    </div>
-  </div>
+	<!-- Main Content -->
+	<div class="flex-1 p-4">
+		<h1 class="text-2xl font-bold mb-4" id="contentTitle">我的信息</h1>
+		<div class="card p-4 bg-white shadow">
+			<div>
+				<img alt="User Avatar" class="user-avatar rounded-full mb-4" id="userAvatar"
+						 src="https://via.placeholder.com/40">
+				<p class="user-info"><strong>邮箱：</strong> <span id="userEmail">Loading...</span></p>
+				<p class="user-info"><strong>是否为开发人员：</strong> <span id="isDeveloper">Loading...</span></p>
+				<p class="user-info"><strong>是否为维护人员：</strong> <span id="isMaintainer">Loading...</span></p>
+				<p class="user-info"><strong>胡桃云过期时间：</strong> <span id="gachaLogExpire">Loading...</span></p>
+				<p class="user-info"><strong>GitHub 绑定状态：</strong> <span id="githubStatus">Loading...</span></p>
+				<button class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded" id="bindGithub"
+								onclick="BindGithub()" style="display: none">绑定 GitHub
+				</button>
+				<button class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded" id="unbindGithub"
+								onclick="UnbindGithub()" style="display: none">解绑 GitHub
+				</button>
+			</div>
+		</div>
+	</div>
 </div>
 
 <script>
-  function hashEmail(email) {
-    if (!email) {
-      return 0;
-    }
+	function hashEmail(email) {
+		if (!email) {
+			return 0;
+		}
 
-    return CryptoJS.SHA256(email).toString();
-  }
+		return CryptoJS.SHA256(email).toString();
+	}
 
-  function showContent(title) {
-    document.getElementById("contentTitle").textContent = title;
+	function showContent(title) {
+		document.getElementById("contentTitle").textContent = title;
 
-    let token = getCookie("token");
-    if (!token) {
-      window.location.href = "login.html";
-    }
+		let token = getCookie("token");
+		if (!token) {
+			window.location.href = "login.html";
+		}
 
-    if (title === "我的信息") {
-      // 从本地缓存获取用户信息
-      let cachedUserInfo = localStorage.getItem("userInfo");
-      if (cachedUserInfo) {
-        // 如果有缓存数据，则直接使用缓存数据
-        let userInfo = JSON.parse(cachedUserInfo);
-        updateUserInfo(userInfo);
-        // 更新左侧栏的头像URL
-        let userEmailFromLocalStorage = localStorage.getItem("userEmail");
-        document.getElementById("sidebarAvatar").src = "https://www.gravatar.com/avatar/" + hashEmail(userEmailFromLocalStorage);
-      } else {
-        fetch("https://homa.snapgenshin.com/Passport/UserInfo", {
-          headers: {
-            "Authorization": token
-          }
-        })
-          .then(response => response.json())
-          .then(data => {
-            updateUserInfo(data);
-            localStorage.setItem("userInfo", JSON.stringify(data));
-          })
-          .catch(error => console.log(error));
-      }
+		if (title === "我的信息") {
+			// 从本地缓存获取用户信息
+			let cachedUserInfo = localStorage.getItem("userInfo");
+			if (cachedUserInfo) {
+				// 如果有缓存数据，则直接使用缓存数据
+				let userInfo = JSON.parse(cachedUserInfo);
+				updateUserInfo(userInfo);
+				// 更新左侧栏的头像URL
+				let userEmailFromLocalStorage = localStorage.getItem("userEmail");
+				document.getElementById("sidebarAvatar").src = "https://www.gravatar.com/avatar/" + hashEmail(userEmailFromLocalStorage);
+			} else {
+				fetch("https://homa.snapgenshin.com/Passport/UserInfo", {
+					headers: {
+						"Authorization": token
+					}
+				})
+					.then(response => response.json())
+					.then(data => {
+						updateUserInfo(data);
+						localStorage.setItem("userInfo", JSON.stringify(data));
+					})
+					.catch(error => console.log(error));
+			}
 
-      // 请求 GitHub 授权状态
-      fetch("https://homa.snapgenshin.com/OAuth/Github/AuthorizationStatus", {
-        headers: {
-          "Authorization": token
-        }
-      })
-        .then(response => response.json())
-        .then(data => {
-          // 更新绑定状态
-          let isAuthorized = data.data.IsAuthorized;
-          let githubStatus = document.getElementById("githubStatus");
-          let bindGithub = document.getElementById("bindGithub");
-          let unbindGithub = document.getElementById("unbindGithub");
-          if (isAuthorized) {
-            githubStatus.textContent = "已绑定";
-            unbindGithub.style.display = "block";
-          } else {
-            githubStatus.textContent = "未绑定";
-            bindGithub.style.display = "block";
-          }
-        })
-        .catch(error => console.log(error));
-    }
-  }
+			// 请求 GitHub 授权状态
+			fetch("https://homa.snapgenshin.com/OAuth/Github/AuthorizationStatus", {
+				headers: {
+					"Authorization": token
+				}
+			})
+				.then(response => response.json())
+				.then(data => {
+					// 更新绑定状态
+					let isAuthorized = data.data.IsAuthorized;
+					let githubStatus = document.getElementById("githubStatus");
+					let bindGithub = document.getElementById("bindGithub");
+					let unbindGithub = document.getElementById("unbindGithub");
+					if (isAuthorized) {
+						githubStatus.textContent = "已绑定";
+						unbindGithub.style.display = "block";
+					} else {
+						githubStatus.textContent = "未绑定";
+						bindGithub.style.display = "block";
+					}
+				})
+				.catch(error => console.log(error));
+		}
+	}
 
-  function updateUserInfo(data) {
-    let userEmailFromLocalStorage = localStorage.getItem("userEmail");
-    document.getElementById("userAvatar").src = "https://www.gravatar.com/avatar/" + hashEmail(userEmailFromLocalStorage);
-    document.getElementById("userEmail").textContent = userEmailFromLocalStorage;
-    document.getElementById("isDeveloper").textContent = data.data.IsLicensedDeveloper ? "是" : "否";
-    document.getElementById("isMaintainer").textContent = data.data.IsMaintainer ? "是" : "否";
-    let gachaLogExpire = new Date(data.data.GachaLogExpireAt);
-    document.getElementById("gachaLogExpire").textContent = gachaLogExpire.toLocaleString();
-    document.getElementById("sidebarAvatar").src = "https://www.gravatar.com/avatar/" + hashEmail(userEmailFromLocalStorage);
-    document.getElementById("sidebarUsername").textContent = userEmailFromLocalStorage;
-  }
+	function updateUserInfo(data) {
+		let userEmailFromLocalStorage = localStorage.getItem("userEmail");
+		document.getElementById("userAvatar").src = "https://www.gravatar.com/avatar/" + hashEmail(userEmailFromLocalStorage);
+		document.getElementById("userEmail").textContent = userEmailFromLocalStorage;
+		document.getElementById("isDeveloper").textContent = data.data.IsLicensedDeveloper ? "是" : "否";
+		document.getElementById("isMaintainer").textContent = data.data.IsMaintainer ? "是" : "否";
+		let gachaLogExpire = new Date(data.data.GachaLogExpireAt);
+		document.getElementById("gachaLogExpire").textContent = gachaLogExpire.toLocaleString();
+		document.getElementById("sidebarAvatar").src = "https://www.gravatar.com/avatar/" + hashEmail(userEmailFromLocalStorage);
+		document.getElementById("sidebarUsername").textContent = userEmailFromLocalStorage;
+	}
 
-  function logout() {
-    deleteAllCookies();
-    localStorage.clear();
-    window.location.href = "login.html";
-  }
+	function logout() {
+		deleteAllCookies();
+		localStorage.clear();
+		window.location.href = "login.html";
+	}
 
-  function getCookie(cname) {
-    let name = cname + "=";
-    console.log("document.cookie:", document.cookie);
-    console.log("Checking:", name);
-    let decodedCookie = decodeURIComponent(document.cookie);
-    let ca = decodedCookie.split(';');
-    for (let i = 0; i < ca.length; i++) {
-      let c = ca[i];
-      while (c.charAt(0) === ' ') {
-        c = c.substring(1);
-      }
-      if (c.indexOf(name) === 0) {
-        return c.substring(name.length, c.length);
-      }
-    }
-    return "";
-  }
+	function getCookie(cname) {
+		let name = cname + "=";
+		console.log("document.cookie:", document.cookie);
+		console.log("Checking:", name);
+		let decodedCookie = decodeURIComponent(document.cookie);
+		let ca = decodedCookie.split(';');
+		for (let i = 0; i < ca.length; i++) {
+			let c = ca[i];
+			while (c.charAt(0) === ' ') {
+				c = c.substring(1);
+			}
+			if (c.indexOf(name) === 0) {
+				return c.substring(name.length, c.length);
+			}
+		}
+		return "";
+	}
 
-  function deleteAllCookies() {
-    let cookies = document.cookie.split(";");
-    console.log("cookies:", cookies);
+	function deleteAllCookies() {
+		let cookies = document.cookie.split(";");
+		console.log("cookies:", cookies);
 
-    for (let i = 0; i < cookies.length; i++) {
-      let cookie = cookies[i];
-      let eqPos = cookie.indexOf("=");
-      let name = eqPos > -1 ? cookie.substring(0, eqPos) : cookie;
+		for (let i = 0; i < cookies.length; i++) {
+			let cookie = cookies[i];
+			let eqPos = cookie.indexOf("=");
+			let name = eqPos > -1 ? cookie.substring(0, eqPos) : cookie;
 
-      document.cookie = name + "=;expires=Thu, 01 Jan 1970 00:00:00 GMT;domain=" + window.location.hostname + ";path=/";
-    }
-  }
+			document.cookie = name + "=;expires=Thu, 01 Jan 1970 00:00:00 GMT;domain=" + window.location.hostname + ";path=/";
+		}
+	}
 
-  function BindGithub() {
-    let token = getCookie("token");
+	function BindGithub() {
+		let token = getCookie("token");
 
-    window.location.href = `https://homa.snapgenshin.com/OAuth/Github/RedirectLogin?token=${encodeURIComponent(token.substring(7))}`
-  }
+		window.location.href = `https://homa.snapgenshin.com/OAuth/Github/RedirectLogin?token=${encodeURIComponent(token.substring(7))}`
+	}
 
-  function UnbindGithub() {
-    let token = getCookie("token");
+	function UnbindGithub() {
+		let token = getCookie("token");
 
-    fetch("https://homa.snapgenshin.com/OAuth/Github/UnAuthorize", {
-      headers: {
-        "Authorization": token
-      }
-    })
-      .then(response => response.json())
-      .then(data => {
-        if (data.retcode === 0) {
-          alert("解绑成功");
-          window.location.reload();
-        } else {
-          alert("解绑失败：" + data.message);
-        }
-      })
-  }
+		fetch("https://homa.snapgenshin.com/OAuth/Github/UnAuthorize", {
+			headers: {
+				"Authorization": token
+			}
+		})
+			.then(response => response.json())
+			.then(data => {
+				if (data.retcode === 0) {
+					alert("解绑成功");
+					window.location.reload();
+				} else {
+					alert("解绑失败：" + data.message);
+				}
+			})
+	}
 
-  window.onload = function () {
-    showContent('我的信息');
-  };
+	window.onload = function () {
+		showContent('我的信息');
+	};
 </script>
 </body>
 
