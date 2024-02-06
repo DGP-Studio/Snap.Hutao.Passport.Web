@@ -4,7 +4,8 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.17/dist/tailwind.min.css" rel="stylesheet">
+  <link href="https://cdn.jsdelivr.net/npm/tailwindcss/dist/tailwind.min.css" rel="stylesheet">
+  <script src="https://cdn.jsdelivr.net/npm/crypto-js/crypto-js.js"></script>
   <title>User Dashboard</title>
   <style>
     .sidebar {
@@ -114,6 +115,7 @@
           <p class="user-info"><strong>是否为维护人员：</strong> <span id="isMaintainer">Loading...</span></p>
           <p class="user-info"><strong>胡桃云过期时间：</strong> <span id="gachaLogExpire">Loading...</span></p>
           <p class="user-info"><strong>GitHub 绑定状态：</strong> <span id="githubStatus">Loading...</span></p>
+          <button id="bindGithub" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded" style="display: none" onclick="BindGithub()">绑定 GitHub</button>
         </div>
       </div>
     </div>
@@ -125,27 +127,28 @@
         return 0;
       }
 
-      var hash = 0;
-      for (var i = 0; i < email.length; i++) {
-        hash = email.charCodeAt(i) + ((hash << 5) - hash);
-      }
-      return hash;
+      return CryptoJS.SHA256(email).toString();
     }
 
     function showContent(title) {
       document.getElementById("contentTitle").textContent = title;
+
+      let token = getCookie("token");
+      if (!token) {
+        window.location.href = "login.html";
+      }
+
       if (title === "我的信息") {
         // 从本地缓存获取用户信息
-        var cachedUserInfo = localStorage.getItem("userInfo");
+        let cachedUserInfo = localStorage.getItem("userInfo");
         if (cachedUserInfo) {
           // 如果有缓存数据，则直接使用缓存数据
-          var userInfo = JSON.parse(cachedUserInfo);
+          let userInfo = JSON.parse(cachedUserInfo);
           updateUserInfo(userInfo);
           // 更新左侧栏的头像URL
           let userEmailFromLocalStorage = localStorage.getItem("userEmail");
           document.getElementById("sidebarAvatar").src = "https://www.gravatar.com/avatar/" + hashEmail(userEmailFromLocalStorage);
         } else {
-          var token = getCookie("token");
           fetch("https://homa.snapgenshin.com/Passport/UserInfo", {
             headers: {
               "Authorization": token
@@ -168,12 +171,14 @@
           .then(response => response.json())
           .then(data => {
             // 更新绑定状态
-            var isAuthorized = data.data.IsAuthorized;
-            var githubStatus = document.getElementById("githubStatus");
+            let isAuthorized = data.data.IsAuthorized;
+            let githubStatus = document.getElementById("githubStatus");
+            let bindGithub = document.getElementById("bindGithub");
             if (isAuthorized) {
               githubStatus.textContent = "已绑定";
             } else {
               githubStatus.textContent = "未绑定";
+              bindGithub.style.display = "block";
             }
           })
           .catch(error => console.log(error));
@@ -206,10 +211,10 @@
       let ca = decodedCookie.split(';');
       for(let i = 0; i <ca.length; i++) {
         let c = ca[i];
-        while (c.charAt(0) == ' ') {
+        while (c.charAt(0) === ' ') {
           c = c.substring(1);
         }
-        if (c.indexOf(name) == 0) {
+        if (c.indexOf(name) === 0) {
           return c.substring(name.length, c.length);
         }
       }
@@ -217,16 +222,22 @@
     }
 
     function deleteAllCookies() {
-      var cookies = document.cookie.split(";");
+      let cookies = document.cookie.split(";");
       console.log("cookies:", cookies);
 
-      for (var i = 0; i < cookies.length; i++) {
-        var cookie = cookies[i];
-        var eqPos = cookie.indexOf("=");
-        var name = eqPos > -1 ? cookie.substring(0, eqPos) : cookie;
+      for (let i = 0; i < cookies.length; i++) {
+        let cookie = cookies[i];
+        let eqPos = cookie.indexOf("=");
+        let name = eqPos > -1 ? cookie.substring(0, eqPos) : cookie;
 
         document.cookie = name + "=;expires=Thu, 01 Jan 1970 00:00:00 GMT;domain=" + window.location.hostname + ";path=/";
       }
+    }
+
+    function BindGithub() {
+      // TODO
+      let token = getCookie("token");
+      let url = "https://homa.snapgenshin.com/OAuth/Github/RedirectLogin";
     }
 
     window.onload = function () {

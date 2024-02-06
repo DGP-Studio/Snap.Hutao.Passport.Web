@@ -3,14 +3,13 @@
 
 <head>
     <title>登录页面</title>
+    <meta charset="UTF-8">
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
     <style>
         body {
-            background: linear-gradient(to right, pink, skyblue);
             height: 100vh;
             margin: 0;
-            background-repeat: no-repeat;
-            background-attachment: fixed;
+            background: linear-gradient(to right, pink, skyblue) no-repeat fixed;
         }
 
         .container {
@@ -92,15 +91,15 @@
         <p id="message-text"></p>
     </div>
     <div style="position: fixed; top: 10px; right: 10px;">
-        <button onclick="switchLanguage('en')">English</button>
-        <button onclick="switchLanguage('zh')">中文</button>
+        <button onclick="setLanguage('en')">English</button>
+        <button onclick="setLanguage('zh-cn')">中文（简体）</button>
     </div>
     <script src="https://unpkg.com/node-forge/dist/forge.min.js"></script>
-    <script src="/assets/translate.js"></script>
+    <script src="assets/translate.js"></script>
     <script>
         function showMessage(text, isError) {
-            var messageElement = document.getElementById('message');
-            var messageTextElement = document.getElementById('message-text');
+            let messageElement = document.getElementById('message');
+            let messageTextElement = document.getElementById('message-text');
 
             messageTextElement.textContent = text;
             messageElement.style.backgroundColor = isError ? '#f8d7da' : '#d4edda';
@@ -120,7 +119,7 @@
             const expiry = now.getTime() + expiresInMs;
 
             // Set token as a cookie
-            document.cookie = `token=${token}; expires=${new Date(expiry).toUTCString()}; path=/; domain=passport.snapgenshin.cn`;
+            document.cookie = `token=${token}; expires=${new Date(expiry).toUTCString()}; path=/; domain=${window.location.hostname}`;
         }
 
         function getCookie(name) {
@@ -140,7 +139,7 @@
         }
 
         function encryptMessage(message) {
-            var publicKey = "-----BEGIN PUBLIC KEY-----" +
+            let publicKey = "-----BEGIN PUBLIC KEY-----" +
                 "MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEA5W2SEyZSlP2zBI1Sn8Gd" +
                 "TwbZoXlUGNKyoVrY8SVYu9GMefdGZCrUQNkCG/Np8pWPmSSEFGd5oeug/oIMtCZQ" +
                 "NOn0drlR+pul/XZ1KQhKmj/arWjN1XNok2qXF7uxhqD0JyNT/Fxy6QvzqIpBsM9S" +
@@ -150,16 +149,16 @@
                 "9QIDAQAB" +
                 "-----END PUBLIC KEY-----";
             const publicKeyObj = forge.pki.publicKeyFromPem(publicKey);
-            var encrypted = publicKeyObj.encrypt(message, 'RSA-OAEP', {
+            let encrypted = publicKeyObj.encrypt(message, 'RSA-OAEP', {
                 md: forge.md.sha1.create()
             });
             return forge.util.encode64(encrypted);
         }
 
         function adjustImageSize() {
-            var container = document.querySelector('.container');
-            var image = document.querySelector('#login-image');
-            var size = Math.min(container.offsetWidth, container.offsetHeight) * 0.35;
+            let container = document.querySelector('.container');
+            let image = document.querySelector('#login-image');
+            let size = Math.min(container.offsetWidth, container.offsetHeight) * 0.35;
             size = Math.min(size, 256);
             image.style.width = size + 'px';
             image.style.height = size + 'px';
@@ -204,10 +203,6 @@
         window.addEventListener('load', function() {
             const token = getCookie('token');
 
-            loadLanguageDictionary(function(languageDict) {
-                setLanguage(languageDict);
-            });
-
             if (token) {
                 const tokenExp = getTokenExp(token);
 
@@ -235,8 +230,8 @@
         document.getElementById('login-form').addEventListener('submit', function (event) {
             event.preventDefault();
 
-            var email = document.getElementById('exampleInputEmail1').value;
-            var password = document.getElementById('exampleInputPassword1').value;
+            let email = document.getElementById('exampleInputEmail1').value;
+            let password = document.getElementById('exampleInputPassword1').value;
 
             Promise.all([encryptMessage(email), encryptMessage(password)])
                 .then(([encryptedEmail, encryptedPassword]) => {

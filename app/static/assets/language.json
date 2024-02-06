@@ -8,7 +8,7 @@
     "loginFailureMessage": "Login failed: {errorMessage}",
     "loggingInMessage": "Logging in..."
   },
-  "zh": {
+  "zh-cn": {
     "loginTitle": "登录",
     "emailLabel": "邮箱地址",
     "passwordLabel": "密码",

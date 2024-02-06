@@ -1,9 +1,18 @@
 // translate.js
 
+let languageDict = {};
+
+document.addEventListener('DOMContentLoaded', function () {
+    loadLanguageDictionary(function (dict) {
+        languageDict = dict;
+        setLanguage(getLanguage());
+    });
+})
+
 function loadLanguageDictionary(callback) {
-    var xhr = new XMLHttpRequest();
+    let xhr = new XMLHttpRequest();
     xhr.overrideMimeType("application/json");
-    xhr.open('GET', '/assets/language.json', true);
+    xhr.open('GET', 'assets/language.json', true);
     xhr.onreadystatechange = function () {
         if (xhr.readyState === 4 && xhr.status === 200) {
             callback(JSON.parse(xhr.responseText));
@@ -17,8 +26,7 @@ function getLanguage() {
     return userLanguage.toLowerCase();
 }
 
-function setLanguage(languageDict) {
-    const language = getLanguage();
+function setLanguage(language) {
     const loginTitle = document.getElementById('login-title');
     const emailLabel = document.getElementById('email-label');
     const passwordLabel = document.getElementById('password-label');
