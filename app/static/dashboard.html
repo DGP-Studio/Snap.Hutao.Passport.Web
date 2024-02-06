@@ -235,9 +235,9 @@
     }
 
     function BindGithub() {
-      // TODO
       let token = getCookie("token");
-      let url = "https://homa.snapgenshin.com/OAuth/Github/RedirectLogin";
+
+      window.location.href = `https://homa.snapgenshin.com/OAuth/Github/RedirectLogin?token=${encodeURIComponent(token.substring(7))}`
     }
 
     window.onload = function () {
