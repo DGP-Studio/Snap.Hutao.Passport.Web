@@ -10,5 +10,5 @@ router = APIRouter(prefix="/users", tags=["users"])
 @router.get("/login", response_class=RedirectResponse)
 async def login_with_github(token: str):
   response = RedirectResponse(url="/dashboard.html", status_code=302)
-  response.set_cookie(key="token", value=f"Bearer {token}", max_age=60 * 60 * 3, domain=HOSTNAME)
+  response.set_cookie(key="token", value="Bearer " + token, max_age=60 * 60 * 3, domain=HOSTNAME)
   return response
