@@ -1,3 +1,3 @@
-function showHutaoCloud(){
+function showHutaoCloud() {
 
 }

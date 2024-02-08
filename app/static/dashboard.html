@@ -147,12 +147,12 @@
 	<div class="flex-1 p-4 security tab-div" id="security-tab">
 		<h1 class="text-2xl font-bold mb-4">账号安全</h1>
 		<div class="card p-4 bg-white shadow">
-				<button class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded" id="reset-pwd"
-								onclick="resetPassword()">重置密码
-				</button>
-				<button class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded" id="cancel-account"
-								onclick="cancelAccount()">注销账号
-				</button>
+			<button class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded" id="reset-pwd"
+							onclick="resetPassword()">重置密码
+			</button>
+			<button class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded" id="cancel-account"
+							onclick="cancelAccount()">注销账号
+			</button>
 		</div>
 	</div>
 
@@ -160,13 +160,13 @@
 	<div class="flex-1 p-4 hutao-cloud tab-div" id="hutao-cloud-tab">
 		<h1 class="text-2xl font-bold mb-4">胡桃云</h1>
 		<div class="card p-4 bg-white shadow">
-				<p><strong>胡桃云过期时间：</strong><span id="hutaoCloudGachaLogExpire">Loading...</span></p>
-				<button class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
-								onclick="window.open('https://afdian.net/a/DismissedLight')">续费胡桃云
-				</button>
+			<p><strong>胡桃云过期时间：</strong><span id="hutaoCloudGachaLogExpire">Loading...</span></p>
+			<button class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
+							onclick="window.open('https://afdian.net/a/DismissedLight')">续费胡桃云
+			</button>
 		</div>
 		<div class="card p-4 bg-white shadow">
-				<h2 class="text-xl">祈愿记录</h2>
+			<h2 class="text-xl">祈愿记录</h2>
 		</div>
 	</div>
 
@@ -175,16 +175,19 @@
 		<h1 class="text-2xl font-bold mb-4">管理工具</h1>
 		<div class="card p-4 bg-white shadow">
 			<h2 class="text-xl">Spiral Abyss</h2>
-			<button class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded" onclick="runStatistics()">Run Statistics</button>
+			<button class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded" onclick="runStatistics()">Run
+				Statistics
+			</button>
 		</div>
 		<div class="card p-4 bg-white shadow">
-		<h2 class="text-xl">Hutao Cloud</h2>
+			<h2 class="text-xl">Hutao Cloud</h2>
 			<label>
 				Days
-				<input class="border border-gray-300 p-2" type="number" id="management-compensation-days" value="15">
+				<input class="border border-gray-300 p-2" id="management-compensation-days" type="number" value="15">
 			</label>
 			<button class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
-							onclick="compensationHutaoCloud()">Compensation</button>
+							onclick="compensationHutaoCloud()">Compensation
+			</button>
 		</div>
 		<div class="card p-4 bg-white shadow">
 			<h2 class="text-xl">Announcement</h2>
@@ -198,7 +201,8 @@
 			</label>
 			<label>
 				Version Threshold
-				<input class="border border-gray-300 p-2 w-full" type="text" placeholder="Max present version (or leave empty for all) e.g. 1.9.5.0">
+				<input class="border border-gray-300 p-2 w-full" placeholder="Max present version (or leave empty for all) e.g. 1.9.5.0"
+							 type="text">
 			</label>
 			<label>
 				Content
@@ -214,7 +218,8 @@
 				</select>
 			</label>
 			<button class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
-							onclick="uploadAnn()">Upload</button>
+							onclick="uploadAnn()">Upload
+			</button>
 		</div>
 	</div>
 </div>
