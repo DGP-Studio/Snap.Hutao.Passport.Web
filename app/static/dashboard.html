@@ -14,7 +14,7 @@
 
 		.card {
 			border-radius: 8px;
-			height: 90vh;
+			margin-bottom: 1em;
 		}
 
 		.card p {
@@ -24,10 +24,15 @@
 		.user-avatar {
 			width: 64px;
 			height: 64px;
+			margin: 8px;
 		}
 
 		.user-info {
 			font-size: 1rem;
+		}
+
+		.border {
+			border-radius: 10px;
 		}
 	</style>
 </head>
@@ -42,7 +47,7 @@
 		<nav>
 			<ul>
 				<li class="mb-4">
-					<a class="flex items-center text-gray-700 hover:text-gray-900" href="#" onclick="showContent('我的信息')">
+					<a class="flex items-center text-gray-700 hover:text-gray-900" href="#" onclick="showContent('userinfo')">
 						<svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24"
 								 xmlns="http://www.w3.org/2000/svg">
 							<path d="M4 6h16M4 12h16M4 18h16" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"></path>
@@ -51,7 +56,7 @@
 					</a>
 				</li>
 				<li class="mb-4">
-					<a class="flex items-center text-gray-700 hover:text-gray-900" href="#" onclick="showContent('账号安全')">
+					<a class="flex items-center text-gray-700 hover:text-gray-900" href="#" onclick="showContent('security')">
 						<svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24"
 								 xmlns="http://www.w3.org/2000/svg">
 							<path d="M13 10V3L4 14h7v7l9-11h-7z" stroke-linecap="round" stroke-linejoin="round"
@@ -61,7 +66,7 @@
 					</a>
 				</li>
 				<li class="mb-4">
-					<a class="flex items-center text-gray-700 hover:text-gray-900" href="#" onclick="showContent('胡桃云')">
+					<a class="flex items-center text-gray-700 hover:text-gray-900" href="#" onclick="showContent('hutaocloud')">
 						<svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24"
 								 xmlns="http://www.w3.org/2000/svg">
 							<path d="M12 14l9-5-9-5-9 5 9 5z" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"></path>
@@ -71,8 +76,8 @@
 						<span class="ml-1">胡桃云</span>
 					</a>
 				</li>
-				<li class="mb-4">
-					<a class="flex items-center text-gray-700 hover:text-gray-900" href="#" onclick="showContent('管理工具')">
+				<li class="mb-4" id="management-nav-tab" style="display: none">
+					<a class="flex items-center text-gray-700 hover:text-gray-900" href="#" onclick="showContent('management')">
 						<svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24"
 								 xmlns="http://www.w3.org/2000/svg">
 							<path d="M12 20h9" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"></path>
@@ -112,171 +117,118 @@
 		</div>
 	</div>
 
-	<!-- Main Content -->
-	<div class="flex-1 p-4">
-		<h1 class="text-2xl font-bold mb-4" id="contentTitle">我的信息</h1>
-		<div class="card p-4 bg-white shadow">
+	<!-- User Info -->
+	<div class="flex-1 p-4 user-info tab-div" id="user-info-tab">
+		<h1 class="text-2xl font-bold mb-4">我的信息</h1>
+		<div class="card p-4 bg-white shadow flex">
+			<img alt="User Avatar" class="user-avatar rounded-full mb-4" id="userAvatar"
+					 src="https://via.placeholder.com/40">
 			<div>
-				<img alt="User Avatar" class="user-avatar rounded-full mb-4" id="userAvatar"
-						 src="https://via.placeholder.com/40">
 				<p class="user-info"><strong>邮箱：</strong> <span id="userEmail">Loading...</span></p>
 				<p class="user-info"><strong>是否为开发人员：</strong> <span id="isDeveloper">Loading...</span></p>
 				<p class="user-info"><strong>是否为维护人员：</strong> <span id="isMaintainer">Loading...</span></p>
-				<p class="user-info"><strong>胡桃云过期时间：</strong> <span id="gachaLogExpire">Loading...</span></p>
-				<p class="user-info"><strong>GitHub 绑定状态：</strong> <span id="githubStatus">Loading...</span></p>
-				<button class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded" id="bindGithub"
-								onclick="BindGithub()" style="display: none">绑定 GitHub
-				</button>
-				<button class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded" id="unbindGithub"
-								onclick="UnbindGithub()" style="display: none">解绑 GitHub
-				</button>
 			</div>
+		</div>
+		<div class="card p-4 bg-white shadow">
+			<p class="user-info"><strong>胡桃云过期时间：</strong> <span id="gachaLogExpire">Loading...</span></p>
+		</div>
+		<div class="card p-4 bg-white shadow">
+			<p class="user-info"><strong>GitHub 绑定状态：</strong> <span id="githubStatus">Loading...</span></p>
+			<button class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded" id="bindGithub"
+							onclick="BindGithub()" style="display: none">绑定 GitHub
+			</button>
+			<button class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded" id="unbindGithub"
+							onclick="UnbindGithub()" style="display: none">解绑 GitHub
+			</button>
+		</div>
+	</div>
+
+	<!-- Security -->
+	<div class="flex-1 p-4 security tab-div" id="security-tab">
+		<h1 class="text-2xl font-bold mb-4">账号安全</h1>
+		<div class="card p-4 bg-white shadow">
+				<button class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded" id="reset-pwd"
+								onclick="resetPassword()">重置密码
+				</button>
+				<button class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded" id="cancel-account"
+								onclick="cancelAccount()">注销账号
+				</button>
+		</div>
+	</div>
+
+	<!-- Hutao Cloud -->
+	<div class="flex-1 p-4 hutao-cloud tab-div" id="hutao-cloud-tab">
+		<h1 class="text-2xl font-bold mb-4">胡桃云</h1>
+		<div class="card p-4 bg-white shadow">
+				<p><strong>胡桃云过期时间：</strong><span id="hutaoCloudGachaLogExpire">Loading...</span></p>
+				<button class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
+								onclick="window.open('https://afdian.net/a/DismissedLight')">续费胡桃云
+				</button>
+		</div>
+		<div class="card p-4 bg-white shadow">
+				<h2 class="text-xl">祈愿记录</h2>
+		</div>
+	</div>
+
+	<!-- Management -->
+	<div class="flex-1 p-4 management tab-div" id="management-tab">
+		<h1 class="text-2xl font-bold mb-4">管理工具</h1>
+		<div class="card p-4 bg-white shadow">
+			<h2 class="text-xl">Spiral Abyss</h2>
+			<button class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded" onclick="runStatistics()">Run Statistics</button>
+		</div>
+		<div class="card p-4 bg-white shadow">
+		<h2 class="text-xl">Hutao Cloud</h2>
+			<label>
+				Days
+				<input class="border border-gray-300 p-2" type="number" id="management-compensation-days" value="15">
+			</label>
+			<button class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
+							onclick="compensationHutaoCloud()">Compensation</button>
+		</div>
+		<div class="card p-4 bg-white shadow">
+			<h2 class="text-xl">Announcement</h2>
+			<label>
+				Title
+				<input class="border border-gray-300 p-2 w-full" type="text">
+			</label>
+			<label>
+				Link
+				<input class="border border-gray-300 p-2 w-full" type="text">
+			</label>
+			<label>
+				Version Threshold
+				<input class="border border-gray-300 p-2 w-full" type="text" placeholder="Max present version (or leave empty for all) e.g. 1.9.5.0">
+			</label>
+			<label>
+				Content
+				<textarea class="border border-gray-300 p-2 w-full" rows="5"></textarea>
+			</label>
+			<label>
+				Severity
+				<select class="border border-gray-300 p-2 w-full">
+					<option value="Informational">Informational</option>
+					<option value="Success">Success</option>
+					<option value="Warning">Warning</option>
+					<option value="Error">Error</option>
+				</select>
+			</label>
+			<button class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
+							onclick="uploadAnn()">Upload</button>
 		</div>
 	</div>
 </div>
 
+<script src="js/cookie.js"></script>
+<script src="js/token.js"></script>
+<script src="js/dashboard/dashboard.js"></script>
+<script src="js/dashboard/userinfo.js"></script>
+<script src="js/dashboard/security.js"></script>
+<script src="js/dashboard/cloud.js"></script>
+<script src="js/dashboard/management.js"></script>
 <script>
-	function hashEmail(email) {
-		if (!email) {
-			return 0;
-		}
-
-		return CryptoJS.SHA256(email).toString();
-	}
-
-	function showContent(title) {
-		document.getElementById("contentTitle").textContent = title;
-
-		let token = getCookie("token");
-		if (!token) {
-			window.location.href = "login.html";
-		}
-
-		if (title === "我的信息") {
-			// 从本地缓存获取用户信息
-			let cachedUserInfo = localStorage.getItem("userInfo");
-			if (cachedUserInfo) {
-				// 如果有缓存数据，则直接使用缓存数据
-				let userInfo = JSON.parse(cachedUserInfo);
-				updateUserInfo(userInfo);
-				// 更新左侧栏的头像URL
-				let userEmailFromLocalStorage = localStorage.getItem("userEmail");
-				document.getElementById("sidebarAvatar").src = "https://www.gravatar.com/avatar/" + hashEmail(userEmailFromLocalStorage);
-			} else {
-				fetch("https://homa.snapgenshin.com/Passport/UserInfo", {
-					headers: {
-						"Authorization": token
-					}
-				})
-					.then(response => response.json())
-					.then(data => {
-						updateUserInfo(data);
-						localStorage.setItem("userInfo", JSON.stringify(data));
-					})
-					.catch(error => console.log(error));
-			}
-
-			// 请求 GitHub 授权状态
-			fetch("https://homa.snapgenshin.com/OAuth/Github/AuthorizationStatus", {
-				headers: {
-					"Authorization": token
-				}
-			})
-				.then(response => response.json())
-				.then(data => {
-					// 更新绑定状态
-					let isAuthorized = data.data.IsAuthorized;
-					let githubStatus = document.getElementById("githubStatus");
-					let bindGithub = document.getElementById("bindGithub");
-					let unbindGithub = document.getElementById("unbindGithub");
-					if (isAuthorized) {
-						githubStatus.textContent = "已绑定";
-						unbindGithub.style.display = "block";
-					} else {
-						githubStatus.textContent = "未绑定";
-						bindGithub.style.display = "block";
-					}
-				})
-				.catch(error => console.log(error));
-		}
-	}
-
-	function updateUserInfo(data) {
-		let userEmailFromLocalStorage = localStorage.getItem("userEmail");
-		document.getElementById("userAvatar").src = "https://www.gravatar.com/avatar/" + hashEmail(userEmailFromLocalStorage);
-		document.getElementById("userEmail").textContent = userEmailFromLocalStorage;
-		document.getElementById("isDeveloper").textContent = data.data.IsLicensedDeveloper ? "是" : "否";
-		document.getElementById("isMaintainer").textContent = data.data.IsMaintainer ? "是" : "否";
-		let gachaLogExpire = new Date(data.data.GachaLogExpireAt);
-		document.getElementById("gachaLogExpire").textContent = gachaLogExpire.toLocaleString();
-		document.getElementById("sidebarAvatar").src = "https://www.gravatar.com/avatar/" + hashEmail(userEmailFromLocalStorage);
-		document.getElementById("sidebarUsername").textContent = userEmailFromLocalStorage;
-	}
-
-	function logout() {
-		deleteAllCookies();
-		localStorage.clear();
-		window.location.href = "login.html";
-	}
-
-	function getCookie(cname) {
-		let name = cname + "=";
-		console.log("document.cookie:", document.cookie);
-		console.log("Checking:", name);
-		let decodedCookie = decodeURIComponent(document.cookie);
-		let ca = decodedCookie.split(';');
-		for (let i = 0; i < ca.length; i++) {
-			let c = ca[i];
-			while (c.charAt(0) === ' ') {
-				c = c.substring(1);
-			}
-			if (c.indexOf(name) === 0) {
-				return c.substring(name.length, c.length);
-			}
-		}
-		return "";
-	}
-
-	function deleteAllCookies() {
-		let cookies = document.cookie.split(";");
-		console.log("cookies:", cookies);
-
-		for (let i = 0; i < cookies.length; i++) {
-			let cookie = cookies[i];
-			let eqPos = cookie.indexOf("=");
-			let name = eqPos > -1 ? cookie.substring(0, eqPos) : cookie;
-
-			document.cookie = name + "=;expires=Thu, 01 Jan 1970 00:00:00 GMT;domain=" + window.location.hostname + ";path=/";
-		}
-	}
-
-	function BindGithub() {
-		let token = getCookie("token");
-
-		window.location.href = `https://homa.snapgenshin.com/OAuth/Github/RedirectLogin?token=${encodeURIComponent(token.substring(7))}`
-	}
-
-	function UnbindGithub() {
-		let token = getCookie("token");
-
-		fetch("https://homa.snapgenshin.com/OAuth/Github/UnAuthorize", {
-			headers: {
-				"Authorization": token
-			}
-		})
-			.then(response => response.json())
-			.then(data => {
-				if (data.retcode === 0) {
-					alert("解绑成功");
-					window.location.reload();
-				} else {
-					alert("解绑失败：" + data.message);
-				}
-			})
-	}
-
 	window.onload = function () {
-		showContent('我的信息');
+		showContent('userinfo')
 	};
 </script>
 </body>

@@ -7,24 +7,24 @@ document.addEventListener('DOMContentLoaded', function () {
 		languageDict = dict;
 		setLanguage(getLanguage());
 	});
+
+	function loadLanguageDictionary(callback) {
+		let xhr = new XMLHttpRequest();
+		xhr.overrideMimeType("application/json");
+		xhr.open('GET', 'assets/language.json', true);
+		xhr.onreadystatechange = function () {
+			if (xhr.readyState === 4 && xhr.status === 200) {
+				callback(JSON.parse(xhr.responseText));
+			}
+		};
+		xhr.send(null);
+	}
+
+	function getLanguage() {
+		const userLanguage = navigator.language || navigator.userLanguage;
+		return userLanguage.toLowerCase();
+	}
 })
-
-function loadLanguageDictionary(callback) {
-	let xhr = new XMLHttpRequest();
-	xhr.overrideMimeType("application/json");
-	xhr.open('GET', 'assets/language.json', true);
-	xhr.onreadystatechange = function () {
-		if (xhr.readyState === 4 && xhr.status === 200) {
-			callback(JSON.parse(xhr.responseText));
-		}
-	};
-	xhr.send(null);
-}
-
-function getLanguage() {
-	const userLanguage = navigator.language || navigator.userLanguage;
-	return userLanguage.toLowerCase();
-}
 
 function setLanguage(language) {
 	const loginTitle = document.getElementById('login-title');

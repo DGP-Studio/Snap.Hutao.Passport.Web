@@ -1,0 +1,7 @@
+function resetPassword() {
+
+}
+
+function cancelAccount() {
+
+}
