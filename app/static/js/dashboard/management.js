@@ -2,7 +2,7 @@ function runStatistics() {
 
 }
 
-function compensationHutaoCloud() {
+function compensateHutaoCloud() {
 
 }
 

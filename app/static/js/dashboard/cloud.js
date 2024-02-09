@@ -1,3 +1,7 @@
 function showHutaoCloud() {
 
 }
+
+function redeem() {
+
+}
