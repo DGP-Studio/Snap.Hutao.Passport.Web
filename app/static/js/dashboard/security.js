@@ -20,6 +20,7 @@ function resetPassword() {
 		.then(data => {
 			if (data.retcode === 0) {
 				alert("重置成功")
+				logout()
 			} else {
 				alert("重置失败：" + data.message)
 			}
@@ -39,7 +40,7 @@ function cancelAccount() {
 		"VerifyCode": rsaEncrypt(captcha)
 	}
 
-	fetch("https://homa.snapgenshin.com/Passport/CancelRegistration", {
+	fetch("https://homa.snapgenshin.com/Passport/Cancel", {
 		method: "POST",
 		headers: {
 			"Authorization": BearerWrap(getToken()),
@@ -50,6 +51,7 @@ function cancelAccount() {
 		.then(data => {
 			if (data.retcode === 0) {
 				alert("注销成功")
+				logout()
 			} else {
 				alert("注销失败：" + data.message)
 			}
