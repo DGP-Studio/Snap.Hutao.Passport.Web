@@ -48,22 +48,24 @@ window.onload = function () {
 
 	if (!localStorage.getItem("userInfoExpire") || Date.now() >= parseInt(localStorage.getItem("userInfoExpire"))) {
 		localStorage.removeItem("userInfo")
-	}
 
-	fetch("https://homa.snapgenshin.com/Passport/UserInfo", {
-		headers: {
-			"Authorization": BearerWrap(token)
-		}
-	})
-		.then(response => response.json())
-		.then(data => {
-			let userInfo = JSON.stringify(data);
-			localStorage.setItem("userInfo", userInfo);
-			localStorage.setItem("userInfoExpire", (Date.now() + 1000 * 60 * 60 * 3).toString());
-
-			setSidebarUserInfo(data)
+		fetch("https://homa.snapgenshin.com/Passport/UserInfo", {
+			headers: {
+				"Authorization": BearerWrap(token)
+			}
 		})
-		.catch(error => console.log(error));
+			.then(response => response.json())
+			.then(data => {
+				let userInfo = JSON.stringify(data);
+				localStorage.setItem("userInfo", userInfo);
+				localStorage.setItem("userInfoExpire", (Date.now() + 1000 * 60 * 60 * 3).toString());
+
+				setSidebarUserInfo(data)
+			})
+			.catch(error => console.log(error));
+	} else {
+		setSidebarUserInfo(JSON.parse(localStorage.getItem("userInfo")))
+	}
 
 	if (window.location.hash === '') {
 		showContent('user-info')

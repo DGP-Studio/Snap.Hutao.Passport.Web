@@ -58,23 +58,25 @@ function fetchGachaLogs() {
 		let itemCount = createP("抽卡次数: " + entry.ItemCount);
 
 		let del = createButton("删除", function () {
-			fetch(`https://homa.snapgenshin.com/GachaLog/Delete?Uid=${entry.Uid}`, {
-				headers: {
-					"Authorization": BearerWrap(getToken())
-				}
-			}).then(response => response.json())
-				.then(data => {
-					if (data.retcode === 0) {
-						alert("删除成功");
-						card.remove();
-					} else {
-						alert("删除失败：" + data.message);
+			if (confirm(`确定删除 ${entry.Uid} 的数据？`)) {
+				fetch(`https://homa.snapgenshin.com/GachaLog/Delete?Uid=${entry.Uid}`, {
+					headers: {
+						"Authorization": BearerWrap(getToken())
 					}
-				})
-				.catch(error => {
-					console.error("Error:", error);
-					alert("删除失败：" + error);
-				})
+				}).then(response => response.json())
+					.then(data => {
+						if (data.retcode === 0) {
+							alert("删除成功");
+							card.remove();
+						} else {
+							alert("删除失败：" + data.message);
+						}
+					})
+					.catch(error => {
+						console.error("Error:", error);
+						alert("删除失败：" + error);
+					})
+			}
 		});
 
 		card.appendChild(uid);
