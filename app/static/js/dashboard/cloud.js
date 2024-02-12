@@ -55,6 +55,20 @@ function fetchGachaLogs() {
 
 		let uid = createP("UID: " + entry.Uid);
 
+		if (entry.Excluded) {
+			let sub = document.createElement("span")
+			sub.classList.add("subtext")
+			sub.textContent = "数据异常"
+
+			let tooltip = document.createElement("span")
+			tooltip.classList.add("tooltiptext")
+			tooltip.textContent = "数据异常，建议删除记录后通过胡桃重新上传。"
+
+			sub.appendChild(tooltip)
+
+			uid.appendChild(sub)
+		}
+
 		let itemCount = createP("抽卡次数: " + entry.ItemCount);
 
 		let del = createButton("删除", function () {

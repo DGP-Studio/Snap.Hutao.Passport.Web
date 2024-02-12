@@ -35,6 +35,38 @@
 		.border {
 			border-radius: 10px;
 		}
+
+		.subtext {
+			margin-inline-start: 4px;
+			color: gray;
+			font-size: 0.75em;
+			text-decoration: underline;
+			position: relative;
+			display: inline-block;
+			cursor: pointer;
+		}
+
+		.subtext .tooltiptext {
+			visibility: hidden;
+			width: 180px;
+			background-color: #555;
+			color: #fff;
+			text-align: center;
+			border-radius: 6px;
+			padding: 5px 0;
+			position: absolute;
+			z-index: 1;
+			bottom: 125%;
+			left: 50%;
+			margin-left: -60px;
+			opacity: 0;
+			transition: opacity 0.3s;
+		}
+
+		.subtext:hover .tooltiptext {
+			visibility: visible;
+			opacity: 1;
+		}
 	</style>
 </head>
 

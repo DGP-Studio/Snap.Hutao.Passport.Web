@@ -17,5 +17,6 @@
 /**
  * @typedef {object} GachaEntry
  * @property {string} Uid - Uid
+ * @property {boolean} Excluded - Excluded from statistics
  * @property {int} ItemCount - Item count
  */
