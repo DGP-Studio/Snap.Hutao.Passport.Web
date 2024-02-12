@@ -13,3 +13,9 @@
  * @property {string} RefreshToken - GitHub Refresh token
  * @property {int} ExpiresAt - GitHub Refresh token expiration time
  */
+
+/**
+ * @typedef {object} GachaEntry
+ * @property {string} Uid - Uid
+ * @property {int} ItemCount - Item count
+ */

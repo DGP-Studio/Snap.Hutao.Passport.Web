@@ -6,6 +6,7 @@
 	<meta content="width=device-width, initial-scale=1.0" name="viewport">
 	<link href="https://cdn.jsdelivr.net/npm/tailwindcss/dist/tailwind.min.css" rel="stylesheet">
 	<script src="https://cdn.jsdelivr.net/npm/crypto-js/crypto-js.js"></script>
+	<script src="https://unpkg.com/node-forge/dist/forge.min.js"></script>
 	<title>User Dashboard</title>
 	<style>
 		.sidebar {
@@ -47,7 +48,8 @@
 		<nav>
 			<ul>
 				<li class="mb-4">
-					<a class="flex items-center text-gray-700 hover:text-gray-900" href="#" onclick="showContent('userinfo')">
+					<a class="flex items-center text-gray-700 hover:text-gray-900" href="#user-info"
+						 onclick="showContent('user-info')">
 						<svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24"
 								 xmlns="http://www.w3.org/2000/svg">
 							<path d="M4 6h16M4 12h16M4 18h16" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"></path>
@@ -56,7 +58,8 @@
 					</a>
 				</li>
 				<li class="mb-4">
-					<a class="flex items-center text-gray-700 hover:text-gray-900" href="#" onclick="showContent('security')">
+					<a class="flex items-center text-gray-700 hover:text-gray-900" href="#security"
+						 onclick="showContent('security')">
 						<svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24"
 								 xmlns="http://www.w3.org/2000/svg">
 							<path d="M13 10V3L4 14h7v7l9-11h-7z" stroke-linecap="round" stroke-linejoin="round"
@@ -66,7 +69,8 @@
 					</a>
 				</li>
 				<li class="mb-4">
-					<a class="flex items-center text-gray-700 hover:text-gray-900" href="#" onclick="showContent('hutaocloud')">
+					<a class="flex items-center text-gray-700 hover:text-gray-900" href="#hutao-cloud"
+						 onclick="showContent('hutao-cloud')">
 						<svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24"
 								 xmlns="http://www.w3.org/2000/svg">
 							<path d="M12 14l9-5-9-5-9 5 9 5z" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"></path>
@@ -77,7 +81,8 @@
 					</a>
 				</li>
 				<li class="mb-4" id="nav-management" style="display: none">
-					<a class="flex items-center text-gray-700 hover:text-gray-900" href="#" onclick="showContent('management')">
+					<a class="flex items-center text-gray-700 hover:text-gray-900" href="#management"
+						 onclick="showContent('management')">
 						<svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24"
 								 xmlns="http://www.w3.org/2000/svg">
 							<path d="M12 20h9" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"></path>
@@ -154,7 +159,7 @@
 				验证码：
 				<input class="border border-gray-300 p-2" id="security-reset-password-captcha" type="text">
 				<button class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
-								onclick="resetPasswordCaptcha()">获取验证码
+								onclick="captcha('reset')">获取验证码
 				</button>
 			</label>
 			<br>
@@ -173,7 +178,7 @@
 				验证码：
 				<input class="border border-gray-300 p-2" id="security-cancel-account-captcha" type="text">
 				<button class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
-								onclick="cancelAccountCaptcha()">获取验证码
+								onclick="captcha('cancel')">获取验证码
 				</button>
 			</label>
 			<br>
@@ -205,6 +210,8 @@
 		</div>
 		<div class="card p-4 bg-white shadow">
 			<h2 class="text-xl">祈愿记录</h2>
+			<div id="hutao-cloud-gacha-entries">
+			</div>
 		</div>
 	</div>
 
@@ -226,34 +233,46 @@
 			<button class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
 							onclick="compensateHutaoCloud()">Compensate
 			</button>
+			<br>
+			<label>
+				UserName
+				<input class="border border-gray-300 p-2" id="management-designation-user-input" type="text">
+			</label>
+			<label>
+				Days
+				<input class="border border-gray-300 p-2" id="management-designation-days-input" type="number" value="15">
+			</label>
+			<button class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
+							onclick="designateHutaoCloud()">Designate
+			</button>
 		</div>
 		<div class="card p-4 bg-white shadow">
 			<h2 class="text-xl">Announcement</h2>
 			<label>
 				Title
-				<input class="border border-gray-300 p-2 w-full" type="text">
+				<input class="border border-gray-300 p-2 w-full" id="management-ann-title" type="text">
 			</label>
 			<label>
 				Link
-				<input class="border border-gray-300 p-2 w-full" type="text">
+				<input class="border border-gray-300 p-2 w-full" id="management-ann-link" type="text">
 			</label>
 			<label>
 				Version Threshold
-				<input class="border border-gray-300 p-2 w-full"
+				<input class="border border-gray-300 p-2 w-full" id="management-ann-version-threshold"
 							 placeholder="Max present version (or leave empty for all) e.g. 1.9.5.0"
 							 type="text">
 			</label>
 			<label>
 				Content
-				<textarea class="border border-gray-300 p-2 w-full" rows="5"></textarea>
+				<textarea class="border border-gray-300 p-2 w-full" id="management-ann-content" rows="5"></textarea>
 			</label>
 			<label>
 				Severity
-				<select class="border border-gray-300 p-2 w-full">
-					<option value="Informational">Informational</option>
-					<option value="Success">Success</option>
-					<option value="Warning">Warning</option>
-					<option value="Error">Error</option>
+				<select class="border border-gray-300 p-2 w-full" id="management-ann-severity">
+					<option value="0">Informational</option>
+					<option value="1">Success</option>
+					<option value="2">Warning</option>
+					<option value="3">Error</option>
 				</select>
 			</label>
 			<button class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
@@ -264,17 +283,13 @@
 </div>
 
 <script src="js/cookie.js"></script>
+<script src="js/encrypt.js"></script>
 <script src="js/token.js"></script>
 <script src="js/dashboard/dashboard.js"></script>
 <script src="js/dashboard/userinfo.js"></script>
 <script src="js/dashboard/security.js"></script>
 <script src="js/dashboard/cloud.js"></script>
 <script src="js/dashboard/management.js"></script>
-<script>
-	window.onload = function () {
-		showContent('userinfo')
-	};
-</script>
 </body>
 
 </html>
