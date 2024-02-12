@@ -14,18 +14,18 @@ function showContent(state) {
 
 	switch (state) {
 		case 'userinfo':
-			document.getElementById('user-info-tab').style.display = 'block';
+			document.getElementById('user-info').style.display = 'block';
 			showUserInfo();
 			break;
 		case 'security':
-			document.getElementById('security-tab').style.display = 'block';
+			document.getElementById('security').style.display = 'block';
 			break;
 		case 'hutaocloud':
-			document.getElementById('hutao-cloud-tab').style.display = 'block';
+			document.getElementById('hutao-cloud').style.display = 'block';
 			showHutaoCloud(); // TODO
 			break;
 		case 'management':
-			document.getElementById('management-tab').style.display = 'block';
+			document.getElementById('management').style.display = 'block';
 			break;
 		default:
 			alert('Unknown content type')

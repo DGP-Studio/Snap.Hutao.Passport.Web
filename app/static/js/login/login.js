@@ -64,7 +64,7 @@ function login(normalEmail, encryptedEmail, encryptedPassword) {
 				showMessageBlock('登录成功', false);
 				setTimeout(function () {
 					window.location.href = 'dashboard.html';
-				}, 2000);
+				}, 1000);
 			} else {
 				showMessageBlock('登录失败：' + data.message, true);
 			}
@@ -106,8 +106,8 @@ window.addEventListener('load', function () {
 document.getElementById('login-form').addEventListener('submit', function (event) {
 	event.preventDefault();
 
-	let email = document.getElementById('exampleInputEmail1').value;
-	let password = document.getElementById('exampleInputPassword1').value;
+	let email = document.getElementById('email-input').value;
+	let password = document.getElementById('password-input').value;
 
 	Promise.all([rsaEncrypt(email), rsaEncrypt(password)])
 		.then(([encryptedEmail, encryptedPassword]) => {

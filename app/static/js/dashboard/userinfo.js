@@ -9,7 +9,7 @@ function showUserInfo() {
 		let userInfo = JSON.parse(cachedUserInfo);
 		updateUserInfo(userInfo);
 		let userEmailFromLocalStorage = localStorage.getItem("userEmail");
-		document.getElementById("sidebarAvatar").src = "https://www.gravatar.com/avatar/" + hashEmail(userEmailFromLocalStorage);
+		document.getElementById("nav-avatar").src = "https://www.gravatar.com/avatar/" + hashEmail(userEmailFromLocalStorage);
 	} else {
 		fetch("https://homa.snapgenshin.com/Passport/UserInfo", {
 			headers: {
@@ -35,16 +35,9 @@ function showUserInfo() {
 			// 更新绑定状态
 			let isAuthorized = data.data.IsAuthorized;
 
-			let githubStatus = document.getElementById("githubStatus");
-			let bindGithub = document.getElementById("bindGithub");
-			let unbindGithub = document.getElementById("unbindGithub");
-			if (isAuthorized) {
-				githubStatus.textContent = "已绑定";
-				unbindGithub.style.display = "block";
-			} else {
-				githubStatus.textContent = "未绑定";
-				bindGithub.style.display = "block";
-			}
+			document.getElementById("user-info-github-status").textContent = isAuthorized ? "已绑定" : "未绑定";
+			document.getElementById("user-info-bind-github-btn").style.display = isAuthorized ? "none" : "block";
+			document.getElementById("user-info-unbind-github-btn").style.display = isAuthorized ? "block" : "none";
 		})
 		.catch(error => console.log(error));
 }
@@ -59,15 +52,15 @@ function hashEmail(email) {
 
 function updateUserInfo(data) {
 	let userEmailFromLocalStorage = localStorage.getItem("userEmail");
-	document.getElementById("userAvatar").src = "https://www.gravatar.com/avatar/" + hashEmail(userEmailFromLocalStorage);
-	document.getElementById("userEmail").textContent = userEmailFromLocalStorage;
-	document.getElementById("isDeveloper").textContent = data.data.IsLicensedDeveloper ? "是" : "否";
-	document.getElementById("isMaintainer").textContent = data.data.IsMaintainer ? "是" : "否";
-	document.getElementById("gachaLogExpire").textContent = new Date(data.data.GachaLogExpireAt).toLocaleString();
-	document.getElementById("sidebarAvatar").src = "https://www.gravatar.com/avatar/" + hashEmail(userEmailFromLocalStorage);
-	document.getElementById("sidebarUsername").textContent = userEmailFromLocalStorage;
+	document.getElementById("user-info-avatar").src = "https://www.gravatar.com/avatar/" + hashEmail(userEmailFromLocalStorage);
+	document.getElementById("user-info-email").textContent = userEmailFromLocalStorage;
+	document.getElementById("user-info-developer").textContent = data.data.IsLicensedDeveloper ? "是" : "否";
+	document.getElementById("user-info-maintainer").textContent = data.data.IsMaintainer ? "是" : "否";
+	document.getElementById("user-info-gacha-expire").textContent = new Date(data.data.GachaLogExpireAt).toLocaleString();
+	document.getElementById("nav-avatar").src = "https://www.gravatar.com/avatar/" + hashEmail(userEmailFromLocalStorage);
+	document.getElementById("nav-username").textContent = userEmailFromLocalStorage;
 
-	document.getElementById("management-nav-tab").style.display = (data.data.IsLicensedDeveloper || data.data.IsMaintainer) ? 'block' : 'none';
+	document.getElementById("nav-management").style.display = (data.data.IsLicensedDeveloper || data.data.IsMaintainer) ? 'block' : 'none';
 }
 
 function BindGithub() {
