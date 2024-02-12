@@ -46,7 +46,7 @@ window.onload = function () {
 		window.location.href = "login.html";
 	}
 
-	if (localStorage.getItem("userInfoExpire") && Date.now() >= parseInt(localStorage.getItem("userInfoExpire"))) {
+	if (localStorage.getItem("userInfoExpire") == null || Date.now() >= parseInt(localStorage.getItem("userInfoExpire"))) {
 		localStorage.removeItem("userInfo")
 	}
 
