@@ -18,7 +18,7 @@ class RedemptionCode(Base):
 
 
 class PassportToken(Base):
-    __tablename__ = "redemption_token"
+    __tablename__ = "token"
 
     id = Column(Integer, primary_key=True, index=True)
     token = Column(String, index=True)

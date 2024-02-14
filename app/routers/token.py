@@ -42,7 +42,7 @@ def get_db():
 router = APIRouter(tags=["token"], prefix="/token")
 
 
-@router.post("/token/add", response_model=StandardResponse)
+@router.post("/add", response_model=StandardResponse)
 async def add_redemption_token(token_data: PassportToken, response: Response, db: SessionLocal = Depends(get_db),
                                security: HTTPAuthorizationCredentials = Security(homa_bearer)):
     # Homa token verification
@@ -74,7 +74,7 @@ async def add_redemption_token(token_data: PassportToken, response: Response, db
     return response_body
 
 
-@router.post("/token/update", response_model=StandardResponse)
+@router.post("/update", response_model=StandardResponse)
 async def update_redemption_token(token_data: UpdateTokenModel, response: Response,
                                   db: SessionLocal = Depends(get_db),
                                   security: HTTPAuthorizationCredentials = Security(homa_bearer)):

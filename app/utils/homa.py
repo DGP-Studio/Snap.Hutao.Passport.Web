@@ -3,6 +3,9 @@ import os
 from Crypto.Cipher import PKCS1_OAEP
 from Crypto.PublicKey import RSA
 from base64 import b64encode
+import redis
+
+redis_conn = redis.Redis(host="redis", port=6379, db=0, decode_responses=True)
 
 
 def homa_encrypt(msg) -> str:
@@ -18,6 +21,9 @@ def homa_encrypt(msg) -> str:
 
 
 def get_homa_token() -> str:
+    homa_assignment_token = redis_conn.get("homa_assignment_token")
+    if homa_assignment_token:
+        return "Bearer %s" % homa_assignment_token
     url = "https://homa.snapgenshin.com/Passport/Login"
     data = {
         "UserName": homa_encrypt(os.getenv("HOMA_USERNAME")),
@@ -27,6 +33,7 @@ def get_homa_token() -> str:
     if response.status_code != 200:
         raise Exception("Failed to get Homa token")
     token = response.json()["data"]
+    redis_conn.set("homa_assignment_token", token, ex=3 * 60 * 60)
     return "Bearer %s" % token
 
 
