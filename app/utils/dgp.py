@@ -1,13 +1,26 @@
 import httpx
-from fastapi import HTTPException, Depends
-from fastapi.security import HTTPBearer, HTTPAuthorizationCredentials
-from app.mysql_app.schemas import HomaUserInfo
+from fastapi import Depends
+from fastapi.security import HTTPBearer, HTTPAuthorizationCredentials, APIKeyHeader
+from app.mysql_app.schemas import HomaUserInfo, PassportTokenPublic
+from app.mysql_app.crud import validate_passport_token
+from app.mysql_app.database import SessionLocal
+
+homa_bearer = HTTPBearer(auto_error=False, scheme_name="Homa Token")
+passport_api_key = APIKeyHeader(name="X-Passport-APIKey", auto_error=False, scheme_name="Passport Token")
 
 
-def auth_is_homa_admin(credentials: HTTPAuthorizationCredentials = Depends(HTTPBearer())) -> HomaUserInfo:
+def get_db():
+    db = SessionLocal()
+    try:
+        yield db
+    finally:
+        db.close()
+
+
+def auth_is_homa_token(credentials: HTTPAuthorizationCredentials = Depends(homa_bearer)) -> HomaUserInfo:
+    if credentials is None:
+        return HomaUserInfo(IsMaintainer=False, NormalizedUserName=None)
     homa_jwt_token = credentials.credentials
-    if homa_jwt_token is None or credentials.scheme.lower() != "bearer":
-        raise HTTPException(status_code=401, detail="Invalid Homa token format.")
     url = "https://homa.snapgenshin.com/Passport/UserInfo"
     headers = {
         "Authorization": f"Bearer {homa_jwt_token}"
@@ -17,5 +30,17 @@ def auth_is_homa_admin(credentials: HTTPAuthorizationCredentials = Depends(HTTPB
         if response["data"]["IsMaintainer"]:
             return HomaUserInfo(IsMaintainer=True, NormalizedUserName=response["data"]["NormalizedUserName"])
     except KeyError:
-        raise HTTPException(status_code=401, detail="Homa token permission denied.")
+        return HomaUserInfo(IsMaintainer=False, NormalizedUserName=None)
     return HomaUserInfo(IsMaintainer=False, NormalizedUserName=response["data"]["NormalizedUserName"])
+
+
+def auth_is_passport_token(db: SessionLocal = Depends(get_db),
+                           credentials: HTTPAuthorizationCredentials = Depends(passport_api_key)
+                           ) -> PassportTokenPublic:
+    if credentials is None:
+        return PassportTokenPublic(Authority=None)
+    token = str(credentials)
+    RedemptionToken = validate_passport_token(db, token)
+    if RedemptionToken is None:
+        return PassportTokenPublic(Authority=None)
+    return PassportTokenPublic(Authority=RedemptionToken.authority)

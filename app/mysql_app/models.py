@@ -1,5 +1,6 @@
+from sqlalchemy import Boolean, Column, Integer, String, DateTime
+
 from .database import Base
-from sqlalchemy import Boolean, Column, ForeignKey, Integer, String, Date, DateTime
 
 
 class RedemptionCode(Base):
@@ -16,7 +17,7 @@ class RedemptionCode(Base):
     used_datetime = Column(DateTime, index=True, nullable=True)
 
 
-class RedemptionToken(Base):
+class PassportToken(Base):
     __tablename__ = "redemption_token"
 
     id = Column(Integer, primary_key=True, index=True)

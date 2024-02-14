@@ -1,34 +1,9 @@
-from fastapi import APIRouter, Depends, Request, Security, HTTPException, Response
-from fastapi.security import HTTPBearer, HTTPAuthorizationCredentials
-from app.mysql_app.database import SessionLocal, engine
-from app.mysql_app import crud, models, schemas
-from app.mysql_app.schemas import RedemptionToken, RedemptionCode, StandardResponse, HomaUserInfo
-from pydantic import BaseModel
-from app.utils.dgp import auth_is_homa_admin
-
-"""
-Verification process:
-
-# Token endpoints: /redemption/token/add, /redemption/token/update
-1. Receive Bearer token from request header
-2. Verify token with Homa server, check if token belongs to a maintainer
-3. If token is valid, proceed to next step, otherwise raise 403 error
-
-# Redemption code endpoints: /redemption/code/add
-1. Receive Bearer token from request header
-2. Verify token with Homa server, check if token belongs the user
-3. If token is valid, proceed to next step, otherwise raise 403 error
-
-# Redemption code endpoints: /redemption/code/gift
-1. Check user is exist in database
-2. If user is valid, proceed to next step, otherwise raise 403 error
-"""
-
-
-class UpdateRedemptionTokenModel(BaseModel):
-    old_token: str
-    new_token: str
-    authority: str
+from fastapi import APIRouter, Depends, Security, Response
+from fastapi.security import HTTPAuthorizationCredentials
+from app.mysql_app import crud
+from app.mysql_app.database import SessionLocal
+from app.mysql_app.schemas import (RedemptionCode, StandardResponse, NewRedemptionCodeRequest)
+from app.utils.dgp import auth_is_homa_token, auth_is_passport_token, homa_bearer, passport_api_key
 
 
 def get_db():
@@ -42,63 +17,76 @@ def get_db():
 router = APIRouter(tags=["redemption"], prefix="/redemption")
 
 
-@router.post("/token/add", response_model=StandardResponse)
-async def add_redemption_token(token_data: RedemptionToken, response: Response, db: SessionLocal = Depends(get_db),
-                               security: HTTPAuthorizationCredentials = Security(HTTPBearer())):
-    # Homa token verification
-    homa_user_info = auth_is_homa_admin(security)
-    if not homa_user_info.IsMaintainer:
-        response_body = StandardResponse(messgae="Permission denied.")
-        response_body.retcode = response.status_code = 401
-        return response_body
-    # Verify duplicated token
-    validated_token = crud.validate_redemption_token(db, token_data.token)
-    if validated_token:
-        response_body = StandardResponse(message="Failed to add redemption token, token already exists.")
+@router.post("/add", response_model=StandardResponse)
+async def add_redemption_code(code_data: NewRedemptionCodeRequest, response: Response,
+                              db: SessionLocal = Depends(get_db),
+                              passport_security: HTTPAuthorizationCredentials = Security(passport_api_key),
+                              homa_security: HTTPAuthorizationCredentials = Security(homa_bearer)):
+    print(f"Code add request details: {code_data}")
+    # Start of identity verification
+    homa_identity = auth_is_homa_token(homa_security)
+    if homa_identity.IsMaintainer:
+        CREATED_BY = f"Homa/{homa_identity.NormalizedUserName}"
+    else:
+        passport_identity = auth_is_passport_token(db, passport_security)
+        if passport_identity.Authority:
+            CREATED_BY = f"Passport/{passport_identity.Authority}"
+        else:
+            response_body = StandardResponse()
+            response_body.retcode = response.status_code = 401
+            response_body.message = "Permission denied."
+            return response_body
+    print(f"Start process redemption code addition: Authority -> {CREATED_BY}")
+    # End of identity verification
+    redemption_code_list = []
+    invalid_code_list = []
+    for code in list(tuple(code_data.code)):
+        token_validation = crud.validate_redemption_code(db, code)
+        if token_validation:
+            invalid_code_list.append(code)
+            continue
+        redemption_code_list.append(RedemptionCode(code=code, value=code_data.value, description=code_data.description,
+                                                   created_by=CREATED_BY))
+    if len(redemption_code_list) > 0:
+        commit_result = crud.add_redemption_code_list(db, redemption_code_list)
+        if commit_result:
+            response_body = StandardResponse()
+            response_body.message = "Redemption code added successfully."
+            response_body.data = {"invalid_code": invalid_code_list,
+                                  "valid_code": [code.code for code in redemption_code_list]}
+            return response_body
+        else:
+            response_body = StandardResponse()
+            response_body.retcode = response.status_code = 500
+            response_body.message = "Failed to add redemption code."
+            return response_body
+    else:
+        response_body = StandardResponse()
         response_body.retcode = response.status_code = 403
+        response_body.message = "All codes are invalid."
+        response_body.data = {"invalid_code": invalid_code_list}
         return response_body
-    # Process to add token
-    result = crud.add_redemption_token(db, token_data)
-    if not result:
-        response_body = StandardResponse(message="Failed to add redemption token")
-        response_body.retcode = response.status_code = 400
-        return response
-    response_body = StandardResponse(data={
-        "token": result.token,
-        "authority": result.authority
-    })
-    print(f"Redemption token add result: {result.authority} -> {result.token}")
-    return response_body
 
 
-@router.post("/token/update", response_model=StandardResponse)
-async def update_redemption_token(token_data: UpdateRedemptionTokenModel, response: Response,
-                                  db: SessionLocal = Depends(get_db),
-                                  security: HTTPAuthorizationCredentials = Security(HTTPBearer())):
-    # Homa token verification
-    homa_user_info = auth_is_homa_admin(security)
-    if not homa_user_info.IsMaintainer:
+@router.get("/check-value", response_model=StandardResponse)
+async def check_redemption_code_value(code: str, response: Response, db: SessionLocal = Depends(get_db),
+                                      security: HTTPAuthorizationCredentials = Security(homa_bearer)):
+    print(f"Check redemption code value request: {code}")
+    # Check homa authority
+    homa_user_info = auth_is_homa_token(security)
+    if not homa_user_info.NormalizedUserName:
         response_body = StandardResponse()
         response_body.retcode = response.status_code = 401
         response_body.message = "Permission denied."
         return response_body
-    # Verify duplicated token
-    validate_result = crud.validate_redemption_token(db, token_data.old_token)
-    if validate_result:
+
+    code_value = crud.validate_redemption_code(db, code)
+    if not code_value:
         response_body = StandardResponse()
-        response_body.retcode = response.status_code = 403
-        response_body.message = "Failed to update redemption token, duplicated token."
+        response_body.retcode = response.status_code = 404
+        response_body.message = "Redemption code not found."
         return response_body
-    # Process to update token
-    new_token_data = RedemptionToken(token=token_data.new_token, authority=token_data.authority)
-    result = crud.update_redemption_token_by_authority(db, new_token_data)
-    if not result:
-        response_body = StandardResponse(message="Failed to update redemption token, unknown error.")
-        response_body.retcode = response.status_code = 400
-        return response_body
-    response_body = StandardResponse(message="Redemption token updated.")
-    response_body.data = {
-        "new_token": token_data.new_token,
-        "authority": token_data.authority
-    }
+    response_body = StandardResponse()
+    response_body.message = "Redemption code found."
+    response_body.data = {"code": code, "value": code_value.value}
     return response_body
