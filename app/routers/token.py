@@ -4,7 +4,7 @@ from pydantic import BaseModel
 from app.mysql_app import crud
 from app.mysql_app.database import SessionLocal
 from app.mysql_app.schemas import (PassportToken, StandardResponse)
-from app.utils.dgp import auth_is_homa_token, homa_bearer
+from app.utils.auth import auth_is_homa_token, homa_bearer
 
 """
 Verification process:

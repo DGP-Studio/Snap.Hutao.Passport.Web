@@ -1,9 +1,15 @@
 from fastapi import APIRouter, Depends, Security, Response
 from fastapi.security import HTTPAuthorizationCredentials
+from pydantic import BaseModel
 from app.mysql_app import crud
 from app.mysql_app.database import SessionLocal
 from app.mysql_app.schemas import (RedemptionCode, StandardResponse, NewRedemptionCodeRequest)
-from app.utils.dgp import auth_is_homa_token, auth_is_passport_token, homa_bearer, passport_api_key
+from app.utils.auth import auth_is_homa_token, auth_is_passport_token, homa_bearer, passport_api_key
+from app.utils.homa import assign_homa_user_membership_time
+
+
+class UseRedemptionCodeRequest(BaseModel):
+    code: str
 
 
 def get_db():
@@ -89,4 +95,37 @@ async def check_redemption_code_value(code: str, response: Response, db: Session
     response_body = StandardResponse()
     response_body.message = "Redemption code found."
     response_body.data = {"code": code, "value": code_value.value}
+    return response_body
+
+
+@router.post("/use", response_model=StandardResponse)
+async def use_redemption_code(code: UseRedemptionCodeRequest, response: Response, db: SessionLocal = Depends(get_db),
+                              security: HTTPAuthorizationCredentials = Security(homa_bearer)):
+    # Check homa authority
+    homa_user_info = auth_is_homa_token(security)
+    if not homa_user_info.NormalizedUserName:
+        response_body = StandardResponse()
+        response_body.retcode = response.status_code = 401
+        response_body.message = "Permission denied."
+        return response_body
+    normalized_user_name = homa_user_info.NormalizedUserName
+    # Process to use code
+    code_validation = crud.validate_redemption_code(db, code.code)
+    if not code_validation:
+        response_body = StandardResponse()
+        response_body.retcode = response.status_code = 404
+        response_body.message = "Redemption code not found."
+        return response_body
+    code_value = code_validation.value
+    homa_assign_result = assign_homa_user_membership_time(normalized_user_name, code_value)
+    if homa_assign_result["status"] == 200:
+        use_result = crud.use_redemption_code(db, code.code, normalized_user_name)
+        if use_result:
+            response_body = StandardResponse()
+            response_body.message = "Redemption code used successfully."
+            response_body.data = {"code": code.code, "value": code_value}
+            return response_body
+    response_body = StandardResponse()
+    response_body.retcode = response.status_code = 500
+    response_body.message = "Failed to use redemption code. Contact admin. "
     return response_body

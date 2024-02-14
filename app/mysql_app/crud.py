@@ -1,5 +1,6 @@
 from sqlalchemy.orm import Session
 from sqlalchemy import or_, and_
+from datetime import datetime
 from . import models, schemas
 
 
@@ -48,3 +49,11 @@ def add_redemption_code_list(db: Session, codes: list[schemas.RedemptionCode]) -
     db.add_all(db_codes)
     db.commit()
     return db_codes
+
+
+def use_redemption_code(db: Session, code: str, used_by: str) -> bool:
+    db.query(models.RedemptionCode).filter(models.RedemptionCode.code == code).update(
+        {models.RedemptionCode.used: True, models.RedemptionCode.used_by: used_by,
+         models.RedemptionCode.used_datetime: datetime.now()})
+    db.commit()
+    return True
