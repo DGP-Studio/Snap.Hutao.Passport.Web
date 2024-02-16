@@ -30,10 +30,16 @@ function designateHutaoCloud() {
 	let username = document.getElementById("management-designation-user-input").value
 	let days = document.getElementById("management-designation-days-input").value
 
-	if (!username || !days) {
-		alert("Please input valid username and days");
+	if (!/^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/.test(username)) {
+		alert("Please input a valid email address.");
 		return;
 	}
+
+	if (!days) {
+		alert("Please input valid days.");
+		return;
+	}
+
 
 	if (confirm(`Confirm to designate ${username} for ${days} days?`)) {
 		fetch(`https://homa.snapgenshin.com/Service/GachaLog/Designation?userName=${username}&days=${days}`, {
@@ -109,5 +115,45 @@ function uploadAnn() {
 				console.error("Error:", error);
 				alert("Error, " + error);
 			});
+	}
+}
+
+function refreshPatchMetadata() {
+	patch("snap-hutao")
+	patch("snap-hutao-deployment")
+
+	function patch(project) {
+		// TODO: CORS
+		fetch(`https://api.snapgenshin.com/patch/${project}`, {
+			method: "PATCH"
+		}).then(response => {
+			if (response.status === 201) {
+				alert("Success")
+			} else {
+				alert("Failed with HTTP status " + response.status)
+			}
+		})
+			.catch(error => {
+				console.error("Error:", error);
+				alert("Error, " + error);
+			})
+	}
+}
+
+function overwritePatch() {
+	let key = document.getElementById("management-patch-overwrite-key").value
+	let url = document.getElementById("management-patch-overwrite-url").value
+
+	if (!url) {
+		alert("Please input valid url.");
+		return;
+	}
+
+	let data = {"key": key, "url": url}
+
+	if (confirm(`Confirm to overwrite ${key} to ${url}?\nBody: ${JSON.stringify(data)}`)) {
+		// TODO: passport backend
+		// Use passport backend to check if the user is authorized to overwrite the patch
+		alert("TODO")
 	}
 }

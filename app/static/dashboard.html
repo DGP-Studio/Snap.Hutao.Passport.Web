@@ -9,6 +9,11 @@
 	<script src="https://unpkg.com/node-forge/dist/forge.min.js"></script>
 	<title>User Dashboard</title>
 	<style>
+		hr {
+			margin-top: 1em;
+			margin-bottom: 1em;
+		}
+
 		.sidebar {
 			height: 100vh;
 		}
@@ -252,8 +257,32 @@
 		<h1 class="text-2xl font-bold mb-4">管理工具</h1>
 		<div class="card p-4 bg-white shadow">
 			<details>
+				<summary class="text-xl">Patch</summary>
+				<button class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
+								onclick="refreshPatchMetadata()">Force refresh patch metadata
+				</button>
+				<hr>
+				<label>
+					Key
+					<select class="border border-gray-300 p-2" id="management-patch-overwrite-key">
+						<option value="snap-hutao">Snap Hutao</option>
+						<option value="snap-hutao-deployment">Snap Hutao Deployment</option>
+					</select>
+				</label>
+				<label>
+					Url
+					<input class="border border-gray-300 p-2" id="management-patch-overwrite-url">
+				</label>
+				<button class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
+								onclick="overwritePatch()">Overwrite
+				</button>
+			</details>
+		</div>
+		<div class="card p-4 bg-white shadow">
+			<details>
 				<summary class="text-xl">Hutao Cloud</summary>
 				<div style="margin-bottom: 1em">
+					<h2><strong>Compensation</strong></h2>
 					<label>
 						Days
 						<input class="border border-gray-300 p-2" id="management-compensation-days-input" type="number" value="15">
@@ -262,7 +291,9 @@
 									onclick="compensateHutaoCloud()">Compensate
 					</button>
 				</div>
+				<hr>
 				<div>
+					<h2><strong>Designation</strong></h2>
 					<label>
 						UserName
 						<input class="border border-gray-300 p-2" id="management-designation-user-input" type="text">

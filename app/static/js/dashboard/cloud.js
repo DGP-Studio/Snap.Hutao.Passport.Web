@@ -8,6 +8,7 @@ function showHutaoCloud() {
 function redeem() {
 	let redeemCode = document.getElementById("hutao-cloud-redeem-code-input").value;
 
+	// TODO: Migrate to passport redemption system
 	fetch("https://homa.snapgenshin.com/code/user/use", {
 		method: "POST",
 		headers: {
