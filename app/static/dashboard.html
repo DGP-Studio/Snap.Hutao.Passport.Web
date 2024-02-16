@@ -251,59 +251,66 @@
 	<div class="flex-1 p-4 management tab-div" id="management" style="display: none">
 		<h1 class="text-2xl font-bold mb-4">管理工具</h1>
 		<div class="card p-4 bg-white shadow">
-			<h2 class="text-xl">Hutao Cloud</h2>
-			<label>
-				Days
-				<input class="border border-gray-300 p-2" id="management-compensation-days-input" type="number" value="15">
-			</label>
-			<button class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
-							onclick="compensateHutaoCloud()">Compensate
-			</button>
-			<br>
-			<label>
-				UserName
-				<input class="border border-gray-300 p-2" id="management-designation-user-input" type="text">
-			</label>
-			<label>
-				Days
-				<input class="border border-gray-300 p-2" id="management-designation-days-input" type="number" value="15">
-			</label>
-			<button class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
-							onclick="designateHutaoCloud()">Designate
-			</button>
+			<details>
+				<summary class="text-xl">Hutao Cloud</summary>
+				<div style="margin-bottom: 1em">
+					<label>
+						Days
+						<input class="border border-gray-300 p-2" id="management-compensation-days-input" type="number" value="15">
+					</label>
+					<button class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
+									onclick="compensateHutaoCloud()">Compensate
+					</button>
+				</div>
+				<div>
+					<label>
+						UserName
+						<input class="border border-gray-300 p-2" id="management-designation-user-input" type="text">
+					</label>
+					<label>
+						Days
+						<input class="border border-gray-300 p-2" id="management-designation-days-input" type="number" value="15">
+					</label>
+					<button class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
+									onclick="designateHutaoCloud()">Designate
+					</button>
+				</div>
+			</details>
 		</div>
 		<div class="card p-4 bg-white shadow">
-			<h2 class="text-xl">Announcement</h2>
-			<label>
-				Title
-				<input class="border border-gray-300 p-2 w-full" id="management-ann-title" type="text">
-			</label>
-			<label>
-				Link
-				<input class="border border-gray-300 p-2 w-full" id="management-ann-link" type="text">
-			</label>
-			<label>
-				Version Threshold
-				<input class="border border-gray-300 p-2 w-full" id="management-ann-version-threshold"
-							 placeholder="Max present version (or leave empty for all) e.g. 1.9.5.0"
-							 type="text">
-			</label>
-			<label>
-				Content
-				<textarea class="border border-gray-300 p-2 w-full" id="management-ann-content" rows="5"></textarea>
-			</label>
-			<label>
-				Severity
-				<select class="border border-gray-300 p-2 w-full" id="management-ann-severity">
-					<option value="0">Informational</option>
-					<option value="1">Success</option>
-					<option value="2">Warning</option>
-					<option value="3">Error</option>
-				</select>
-			</label>
-			<button class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
-							onclick="uploadAnn()">Upload
-			</button>
+			<details>
+				<summary class="text-xl">Announcement</summary>
+				<label>
+					Title
+					<input class="border border-gray-300 p-2 w-full" id="management-ann-title" type="text">
+				</label>
+				<label>
+					Link
+					<input class="border border-gray-300 p-2 w-full" id="management-ann-link" type="text">
+				</label>
+				<label>
+					Version Threshold
+					<input class="border border-gray-300 p-2 w-full" id="management-ann-version-threshold"
+								 placeholder="Max present version (or leave empty for all) e.g. 1.9.5.0"
+								 type="text">
+				</label>
+				<label>
+					Content
+					<textarea class="border border-gray-300 p-2 w-full" id="management-ann-content" rows="5"></textarea>
+				</label>
+				<label>
+					Severity
+					<select class="border border-gray-300 p-2 w-full" id="management-ann-severity">
+						<option value="0">Informational</option>
+						<option value="1">Success</option>
+						<option value="2">Warning</option>
+						<option value="3">Error</option>
+					</select>
+				</label>
+				<button class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
+								onclick="uploadAnn()">Upload
+				</button>
+			</details>
 		</div>
 	</div>
 </div>
