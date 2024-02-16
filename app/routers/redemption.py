@@ -39,7 +39,7 @@ async def add_redemption_code(code_data: NewRedemptionCodeRequest, response: Res
             CREATED_BY = f"Passport/{passport_identity.Authority}"
         else:
             response_body = StandardResponse()
-            response_body.retcode = response.status_code = 401
+            response_body.retcode = response.status_code == 401
             response_body.message = "Permission denied."
             return response_body
     print(f"Start process redemption code addition: Authority -> {CREATED_BY}")
@@ -63,12 +63,12 @@ async def add_redemption_code(code_data: NewRedemptionCodeRequest, response: Res
             return response_body
         else:
             response_body = StandardResponse()
-            response_body.retcode = response.status_code = 500
+            response_body.retcode = response.status_code == 500
             response_body.message = "Failed to add redemption code."
             return response_body
     else:
         response_body = StandardResponse()
-        response_body.retcode = response.status_code = 403
+        response_body.retcode = response.status_code == 403
         response_body.message = "All codes are invalid."
         response_body.data = {"invalid_code": invalid_code_list}
         return response_body
@@ -82,14 +82,14 @@ async def check_redemption_code_value(code: str, response: Response, db: Session
     homa_user_info = auth_is_homa_token(security)
     if not homa_user_info.NormalizedUserName:
         response_body = StandardResponse()
-        response_body.retcode = response.status_code = 401
+        response_body.retcode = response.status_code == 401
         response_body.message = "Permission denied."
         return response_body
 
     code_value = crud.validate_redemption_code(db, code)
     if not code_value:
         response_body = StandardResponse()
-        response_body.retcode = response.status_code = 404
+        response_body.retcode = response.status_code == 404
         response_body.message = "Redemption code not found."
         return response_body
     response_body = StandardResponse()
@@ -105,7 +105,7 @@ async def use_redemption_code(code: UseRedemptionCodeRequest, response: Response
     homa_user_info = auth_is_homa_token(security)
     if not homa_user_info.NormalizedUserName:
         response_body = StandardResponse()
-        response_body.retcode = response.status_code = 401
+        response_body.retcode = response.status_code == 401
         response_body.message = "Permission denied."
         return response_body
     normalized_user_name = homa_user_info.NormalizedUserName
@@ -113,7 +113,7 @@ async def use_redemption_code(code: UseRedemptionCodeRequest, response: Response
     code_validation = crud.validate_redemption_code(db, code.code)
     if not code_validation:
         response_body = StandardResponse()
-        response_body.retcode = response.status_code = 404
+        response_body.retcode = response.status_code == 404
         response_body.message = "Redemption code not found."
         return response_body
     code_value = code_validation.value
@@ -126,6 +126,6 @@ async def use_redemption_code(code: UseRedemptionCodeRequest, response: Response
             response_body.data = {"code": code.code, "value": code_value}
             return response_body
     response_body = StandardResponse()
-    response_body.retcode = response.status_code = 500
+    response_body.retcode = response.status_code == 500
     response_body.message = "Failed to use redemption code. Contact admin. "
     return response_body
