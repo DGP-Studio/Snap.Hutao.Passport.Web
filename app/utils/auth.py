@@ -1,9 +1,10 @@
 import httpx
 from fastapi import Depends
 from fastapi.security import HTTPBearer, HTTPAuthorizationCredentials, APIKeyHeader
-from app.mysql_app.schemas import HomaUserInfo, PassportTokenPublic
+
 from app.mysql_app.crud import validate_passport_token
 from app.mysql_app.database import SessionLocal
+from app.mysql_app.schemas import HomaUserInfo, PassportTokenPublic
 
 homa_bearer = HTTPBearer(auto_error=False, scheme_name="Homa Token")
 passport_api_key = APIKeyHeader(name="X-Passport-APIKey", auto_error=False, scheme_name="Passport Token")

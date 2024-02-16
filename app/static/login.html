@@ -2,98 +2,98 @@
 <html>
 
 <head>
-	<title>登录页面</title>
-	<meta charset="UTF-8">
-	<link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" rel="stylesheet">
-	<style>
-		body {
-			height: 100vh;
-			margin: 0;
-			background: linear-gradient(to right, pink, skyblue) no-repeat fixed;
-		}
+  <title>登录页面</title>
+  <meta charset="UTF-8">
+  <link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" rel="stylesheet">
+  <style>
+    body {
+      height: 100vh;
+      margin: 0;
+      background: linear-gradient(to right, pink, skyblue) no-repeat fixed;
+    }
 
-		.container {
-			display: flex;
-			justify-content: center;
-			align-items: center;
-			height: 100%;
-		}
+    .container {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100%;
+    }
 
-		.card {
-			display: flex;
-			justify-content: center;
-			align-items: center;
-			width: 80%;
-			min-height: 40vh;
-			border-radius: 15px;
-			overflow: hidden;
-		}
+    .card {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      width: 80%;
+      min-height: 40vh;
+      border-radius: 15px;
+      overflow: hidden;
+    }
 
-		.row {
-			width: 100%;
-			display: flex;
-			justify-content: center;
-			align-items: center;
-		}
+    .row {
+      width: 100%;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
 
-		.card-body {
-			padding-left: 20%;
-			padding-right: 20%;
-		}
+    .card-body {
+      padding-left: 20%;
+      padding-right: 20%;
+    }
 
-		.card-img {
-			object-fit: contain;
-			width: 256px;
-			height: 256px;
-		}
+    .card-img {
+      object-fit: contain;
+      width: 256px;
+      height: 256px;
+    }
 
-		.form-control,
-		.btn {
-			width: 100%;
-			border-radius: 15px;
-		}
+    .form-control,
+    .btn {
+      width: 100%;
+      border-radius: 15px;
+    }
 
-		.btn {
-			background-color: #28a745;
-			border-color: #28a745;
-		}
-	</style>
+    .btn {
+      background-color: #28a745;
+      border-color: #28a745;
+    }
+  </style>
 </head>
 
 <body>
 <div class="container">
-	<div class="card">
-		<div class="row no-gutters">
-			<div class="col-lg-6 col-md-12 d-flex align-items-center justify-content-center">
-				<img alt="Image" class="card-img img-fluid" id="login-image" src="assets/HutaoIcon2-256.png">
-			</div>
-			<div class="col-lg-6 col-md-12 d-flex align-items-center">
-				<div class="card-body">
-					<h4 class="card-title text-center" id="login-title">登录</h4>
-					<form id="login-form">
-						<div class="form-group">
-							<label for="email-input" id="email-label">邮箱地址</label>
-							<input aria-describedby="emailHelp" class="form-control" id="email-input"
-										 placeholder="输入邮箱" type="email">
-						</div>
-						<div class="form-group">
-							<label for="password-input" id="password-label">密码</label>
-							<input class="form-control" id="password-input" placeholder="密码" type="password">
-						</div>
-						<button class="btn btn-primary" id="login-button" type="submit">登录</button>
-					</form>
-				</div>
-			</div>
-		</div>
-	</div>
+  <div class="card">
+    <div class="row no-gutters">
+      <div class="col-lg-6 col-md-12 d-flex align-items-center justify-content-center">
+        <img alt="Image" class="card-img img-fluid" id="login-image" src="assets/HutaoIcon2-256.png">
+      </div>
+      <div class="col-lg-6 col-md-12 d-flex align-items-center">
+        <div class="card-body">
+          <h4 class="card-title text-center" id="login-title">登录</h4>
+          <form id="login-form">
+            <div class="form-group">
+              <label for="email-input" id="email-label">邮箱地址</label>
+              <input aria-describedby="emailHelp" class="form-control" id="email-input"
+                     placeholder="输入邮箱" type="email">
+            </div>
+            <div class="form-group">
+              <label for="password-input" id="password-label">密码</label>
+              <input class="form-control" id="password-input" placeholder="密码" type="password">
+            </div>
+            <button class="btn btn-primary" id="login-button" type="submit">登录</button>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
 </div>
 <div id="message"
-		 style="display: none; position: fixed; left: 50%; top: 50%; transform: translate(-50%, -50%); background-color: #f8d7da; color: #721c24; padding: 20px; border-radius: 5px;">
-	<p id="message-text"></p>
+     style="display: none; position: fixed; left: 50%; top: 50%; transform: translate(-50%, -50%); background-color: #f8d7da; color: #721c24; padding: 20px; border-radius: 5px;">
+  <p id="message-text"></p>
 </div>
 <div style="position: fixed; top: 10px; right: 10px;">
-	<button class="rounded border-0" onclick="setLanguage('en')">English</button>
-	<button class="rounded border-0" onclick="setLanguage('zh-cn')">中文（简体）</button>
+  <button class="rounded border-0" onclick="setLanguage('en')">English</button>
+  <button class="rounded border-0" onclick="setLanguage('zh-cn')">中文（简体）</button>
 </div>
 <script src="https://unpkg.com/node-forge/dist/forge.min.js"></script>
 <script src="js/cookie.js"></script>

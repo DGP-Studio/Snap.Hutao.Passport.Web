@@ -1,5 +1,6 @@
 from fastapi import FastAPI
 from fastapi.staticfiles import StaticFiles
+
 from app.routers import user, token, redemption
 
 app = FastAPI(openapi_url=None, docs_url=None, redoc_url=None)

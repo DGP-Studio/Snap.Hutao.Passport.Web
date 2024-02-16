@@ -1,9 +1,10 @@
-import httpx
 import os
+from base64 import b64encode
+
+import httpx
+import redis
 from Crypto.Cipher import PKCS1_OAEP
 from Crypto.PublicKey import RSA
-from base64 import b64encode
-import redis
 
 redis_conn = redis.Redis(host="redis", port=6379, db=0, decode_responses=True)
 

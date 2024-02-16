@@ -2,348 +2,348 @@
 <html lang="en">
 
 <head>
-	<meta charset="UTF-8">
-	<meta content="width=device-width, initial-scale=1.0" name="viewport">
-	<link href="https://cdn.jsdelivr.net/npm/tailwindcss/dist/tailwind.min.css" rel="stylesheet">
-	<script src="https://cdn.jsdelivr.net/npm/crypto-js/crypto-js.js"></script>
-	<script src="https://unpkg.com/node-forge/dist/forge.min.js"></script>
-	<title>User Dashboard</title>
-	<style>
-		hr {
-			margin-top: 1em;
-			margin-bottom: 1em;
-		}
+  <meta charset="UTF-8">
+  <meta content="width=device-width, initial-scale=1.0" name="viewport">
+  <link href="https://cdn.jsdelivr.net/npm/tailwindcss/dist/tailwind.min.css" rel="stylesheet">
+  <script src="https://cdn.jsdelivr.net/npm/crypto-js/crypto-js.js"></script>
+  <script src="https://unpkg.com/node-forge/dist/forge.min.js"></script>
+  <title>User Dashboard</title>
+  <style>
+    hr {
+      margin-top: 1em;
+      margin-bottom: 1em;
+    }
 
-		.sidebar {
-			height: 100vh;
-		}
+    .sidebar {
+      height: 100vh;
+    }
 
-		.card {
-			border-radius: 8px;
-			margin-bottom: 1em;
-		}
+    .card {
+      border-radius: 8px;
+      margin-bottom: 1em;
+    }
 
-		.card p {
-			line-height: 1.5;
-		}
+    .card p {
+      line-height: 1.5;
+    }
 
-		.user-avatar {
-			width: 64px;
-			height: 64px;
-			margin: 8px;
-		}
+    .user-avatar {
+      width: 64px;
+      height: 64px;
+      margin: 8px;
+    }
 
-		.user-info {
-			font-size: 1rem;
-		}
+    .user-info {
+      font-size: 1rem;
+    }
 
-		.border {
-			border-radius: 10px;
-		}
+    .border {
+      border-radius: 10px;
+    }
 
-		.subtext {
-			margin-inline-start: 4px;
-			color: gray;
-			font-size: 0.75em;
-			text-decoration: underline;
-			position: relative;
-			display: inline-block;
-			cursor: pointer;
-		}
+    .subtext {
+      margin-inline-start: 4px;
+      color: gray;
+      font-size: 0.75em;
+      text-decoration: underline;
+      position: relative;
+      display: inline-block;
+      cursor: pointer;
+    }
 
-		.subtext .tooltiptext {
-			visibility: hidden;
-			width: 180px;
-			background-color: #555;
-			color: #fff;
-			text-align: center;
-			border-radius: 6px;
-			padding: 5px 0;
-			position: absolute;
-			z-index: 1;
-			bottom: 125%;
-			left: 50%;
-			margin-left: -60px;
-			opacity: 0;
-			transition: opacity 0.3s;
-		}
+    .subtext .tooltiptext {
+      visibility: hidden;
+      width: 180px;
+      background-color: #555;
+      color: #fff;
+      text-align: center;
+      border-radius: 6px;
+      padding: 5px 0;
+      position: absolute;
+      z-index: 1;
+      bottom: 125%;
+      left: 50%;
+      margin-left: -60px;
+      opacity: 0;
+      transition: opacity 0.3s;
+    }
 
-		.subtext:hover .tooltiptext {
-			visibility: visible;
-			opacity: 1;
-		}
-	</style>
+    .subtext:hover .tooltiptext {
+      visibility: visible;
+      opacity: 1;
+    }
+  </style>
 </head>
 
 <body class="bg-gray-100">
 <div class="flex">
-	<!-- Sidebar -->
-	<div class="bg-gray-200 w-1/4 p-4 sidebar">
-		<div class="mb-4">
-			<h1 class="text-2xl font-bold">Hutao Passport</h1>
-		</div>
-		<nav>
-			<ul>
-				<li class="mb-4">
-					<a class="flex items-center text-gray-700 hover:text-gray-900" href="#user-info"
-						 onclick="showContent('user-info')">
-						<svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24"
-								 xmlns="http://www.w3.org/2000/svg">
-							<path d="M4 6h16M4 12h16M4 18h16" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"></path>
-						</svg>
-						<span class="ml-1">我的信息</span>
-					</a>
-				</li>
-				<li class="mb-4">
-					<a class="flex items-center text-gray-700 hover:text-gray-900" href="#security"
-						 onclick="showContent('security')">
-						<svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24"
-								 xmlns="http://www.w3.org/2000/svg">
-							<path d="M13 10V3L4 14h7v7l9-11h-7z" stroke-linecap="round" stroke-linejoin="round"
-										stroke-width="2"></path>
-						</svg>
-						<span class="ml-1">账号安全</span>
-					</a>
-				</li>
-				<li class="mb-4">
-					<a class="flex items-center text-gray-700 hover:text-gray-900" href="#hutao-cloud"
-						 onclick="showContent('hutao-cloud')">
-						<svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24"
-								 xmlns="http://www.w3.org/2000/svg">
-							<path d="M12 14l9-5-9-5-9 5 9 5z" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"></path>
-							<path d="M12 14v7M12 14l-9-5 9-5 9 5-9 5z" stroke-linecap="round" stroke-linejoin="round"
-										stroke-width="2"></path>
-						</svg>
-						<span class="ml-1">胡桃云</span>
-					</a>
-				</li>
-				<li class="mb-4" id="nav-management" style="display: none">
-					<a class="flex items-center text-gray-700 hover:text-gray-900" href="#management"
-						 onclick="showContent('management')">
-						<svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24"
-								 xmlns="http://www.w3.org/2000/svg">
-							<path d="M12 20h9" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"></path>
-							<path d="M12 4h9" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"></path>
-							<path d="M4.93 12H2" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"></path>
-							<path d="M15.93 12h2.02" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"></path>
-							<path d="M4.93 4L2 6.92" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"></path>
-							<path d="M15.93 20L18.85 22.92" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"></path>
-							<path d="M8.47 14.47L10.76 16.76" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"></path>
-							<path d="M3 10h.01" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"></path>
-							<path d="M3 14h.01" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"></path>
-							<path d="M20 10h.01" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"></path>
-							<path d="M20 14h.01" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"></path>
-							<path d="M16 10h.01" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"></path>
-							<path d="M16 14h.01" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"></path>
-						</svg>
-						<span class="ml-1">管理工具</span>
-					</a>
-				</li>
-				<li class="mb-4">
-					<a class="flex items-center text-gray-700 hover:text-gray-900" href="#" onclick="logout()">
-						<svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24"
-								 xmlns="http://www.w3.org/2000/svg">
-							<path d="M15 19l-7-7 7-7" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"></path>
-						</svg>
-						<span class="ml-1">注销</span>
-					</a>
-				</li>
-			</ul>
-		</nav>
-		<div class="mt-auto">
-			<div class="flex items-center">
-				<img alt="User Avatar" class="w-8 h-8 rounded-full mr-2" id="nav-avatar"
-						 src="https://via.placeholder.com/40">
-				<span class="text-gray-700" id="nav-username">Loading</span>
-			</div>
-		</div>
-	</div>
+  <!-- Sidebar -->
+  <div class="bg-gray-200 w-1/4 p-4 sidebar">
+    <div class="mb-4">
+      <h1 class="text-2xl font-bold">Hutao Passport</h1>
+    </div>
+    <nav>
+      <ul>
+        <li class="mb-4">
+          <a class="flex items-center text-gray-700 hover:text-gray-900" href="#user-info"
+             onclick="showContent('user-info')">
+            <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24"
+                 xmlns="http://www.w3.org/2000/svg">
+              <path d="M4 6h16M4 12h16M4 18h16" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"></path>
+            </svg>
+            <span class="ml-1">我的信息</span>
+          </a>
+        </li>
+        <li class="mb-4">
+          <a class="flex items-center text-gray-700 hover:text-gray-900" href="#security"
+             onclick="showContent('security')">
+            <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24"
+                 xmlns="http://www.w3.org/2000/svg">
+              <path d="M13 10V3L4 14h7v7l9-11h-7z" stroke-linecap="round" stroke-linejoin="round"
+                    stroke-width="2"></path>
+            </svg>
+            <span class="ml-1">账号安全</span>
+          </a>
+        </li>
+        <li class="mb-4">
+          <a class="flex items-center text-gray-700 hover:text-gray-900" href="#hutao-cloud"
+             onclick="showContent('hutao-cloud')">
+            <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24"
+                 xmlns="http://www.w3.org/2000/svg">
+              <path d="M12 14l9-5-9-5-9 5 9 5z" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"></path>
+              <path d="M12 14v7M12 14l-9-5 9-5 9 5-9 5z" stroke-linecap="round" stroke-linejoin="round"
+                    stroke-width="2"></path>
+            </svg>
+            <span class="ml-1">胡桃云</span>
+          </a>
+        </li>
+        <li class="mb-4" id="nav-management" style="display: none">
+          <a class="flex items-center text-gray-700 hover:text-gray-900" href="#management"
+             onclick="showContent('management')">
+            <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24"
+                 xmlns="http://www.w3.org/2000/svg">
+              <path d="M12 20h9" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"></path>
+              <path d="M12 4h9" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"></path>
+              <path d="M4.93 12H2" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"></path>
+              <path d="M15.93 12h2.02" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"></path>
+              <path d="M4.93 4L2 6.92" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"></path>
+              <path d="M15.93 20L18.85 22.92" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"></path>
+              <path d="M8.47 14.47L10.76 16.76" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"></path>
+              <path d="M3 10h.01" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"></path>
+              <path d="M3 14h.01" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"></path>
+              <path d="M20 10h.01" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"></path>
+              <path d="M20 14h.01" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"></path>
+              <path d="M16 10h.01" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"></path>
+              <path d="M16 14h.01" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"></path>
+            </svg>
+            <span class="ml-1">管理工具</span>
+          </a>
+        </li>
+        <li class="mb-4">
+          <a class="flex items-center text-gray-700 hover:text-gray-900" href="#" onclick="logout()">
+            <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24"
+                 xmlns="http://www.w3.org/2000/svg">
+              <path d="M15 19l-7-7 7-7" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"></path>
+            </svg>
+            <span class="ml-1">注销</span>
+          </a>
+        </li>
+      </ul>
+    </nav>
+    <div class="mt-auto">
+      <div class="flex items-center">
+        <img alt="User Avatar" class="w-8 h-8 rounded-full mr-2" id="nav-avatar"
+             src="https://via.placeholder.com/40">
+        <span class="text-gray-700" id="nav-username">Loading</span>
+      </div>
+    </div>
+  </div>
 
-	<!-- User Info -->
-	<div class="flex-1 p-4 user-info tab-div" id="user-info" style="display: none">
-		<h1 class="text-2xl font-bold mb-4">我的信息</h1>
-		<div class="card p-4 bg-white shadow flex">
-			<img alt="User Avatar" class="user-avatar rounded-full mb-4" id="user-info-avatar"
-					 src="https://via.placeholder.com/40">
-			<div>
-				<p class="user-info"><strong>邮箱：</strong> <span id="user-info-email">Loading...</span></p>
-				<p class="user-info"><strong>是否为开发人员：</strong> <span id="user-info-developer">Loading...</span></p>
-				<p class="user-info"><strong>是否为维护人员：</strong> <span id="user-info-maintainer">Loading...</span></p>
-			</div>
-		</div>
-		<div class="card p-4 bg-white shadow">
-			<p class="user-info"><strong>胡桃云过期时间：</strong> <span id="user-info-gacha-expire">Loading...</span></p>
-		</div>
-		<div class="card p-4 bg-white shadow">
-			<p class="user-info"><strong>GitHub 绑定状态：</strong> <span id="user-info-github-status">Loading...</span></p>
-			<button class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
-							id="user-info-bind-github-btn"
-							onclick="BindGithub()" style="display: none">绑定 GitHub
-			</button>
-			<button class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
-							id="user-info-unbind-github-btn"
-							onclick="UnbindGithub()" style="display: none">解绑 GitHub
-			</button>
-		</div>
-	</div>
+  <!-- User Info -->
+  <div class="flex-1 p-4 user-info tab-div" id="user-info" style="display: none">
+    <h1 class="text-2xl font-bold mb-4">我的信息</h1>
+    <div class="card p-4 bg-white shadow flex">
+      <img alt="User Avatar" class="user-avatar rounded-full mb-4" id="user-info-avatar"
+           src="https://via.placeholder.com/40">
+      <div>
+        <p class="user-info"><strong>邮箱：</strong> <span id="user-info-email">Loading...</span></p>
+        <p class="user-info"><strong>是否为开发人员：</strong> <span id="user-info-developer">Loading...</span></p>
+        <p class="user-info"><strong>是否为维护人员：</strong> <span id="user-info-maintainer">Loading...</span></p>
+      </div>
+    </div>
+    <div class="card p-4 bg-white shadow">
+      <p class="user-info"><strong>胡桃云过期时间：</strong> <span id="user-info-gacha-expire">Loading...</span></p>
+    </div>
+    <div class="card p-4 bg-white shadow">
+      <p class="user-info"><strong>GitHub 绑定状态：</strong> <span id="user-info-github-status">Loading...</span></p>
+      <button class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
+              id="user-info-bind-github-btn"
+              onclick="BindGithub()" style="display: none">绑定 GitHub
+      </button>
+      <button class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
+              id="user-info-unbind-github-btn"
+              onclick="UnbindGithub()" style="display: none">解绑 GitHub
+      </button>
+    </div>
+  </div>
 
-	<!-- Security -->
-	<div class="flex-1 p-4 security tab-div" id="security" style="display: none">
-		<h1 class="text-2xl font-bold mb-4">账号安全</h1>
-		<div class="card p-4 bg-white shadow">
-			<h2 class="text-xl">重置密码</h2>
-			<label>
-				验证码：
-				<input class="border border-gray-300 p-2" id="security-reset-password-captcha" type="text">
-				<button class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
-								onclick="captcha('reset')">获取验证码
-				</button>
-			</label>
-			<br>
-			<label>
-				新密码：
-				<input class="border border-gray-300 p-2" id="security-reset-password-input" type="password">
-			</label>
-			<button class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
-							id="security-reset-password-btn"
-							onclick="resetPassword()">重置密码
-			</button>
-		</div>
-		<div class="card p-4 bg-white shadow">
-			<h2 class="text-xl">注销账号</h2>
-			<label>
-				验证码：
-				<input class="border border-gray-300 p-2" id="security-cancel-account-captcha" type="text">
-				<button class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
-								onclick="captcha('cancel')">获取验证码
-				</button>
-			</label>
-			<br>
-			<label>
-				密码：
-				<input class="border border-gray-300 p-2" id="security-cancel-account-password" type="password">
-			</label>
-			<button class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
-							id="security-cancel-account-btn"
-							onclick="cancelAccount()">注销账号
-			</button>
-		</div>
-	</div>
+  <!-- Security -->
+  <div class="flex-1 p-4 security tab-div" id="security" style="display: none">
+    <h1 class="text-2xl font-bold mb-4">账号安全</h1>
+    <div class="card p-4 bg-white shadow">
+      <h2 class="text-xl">重置密码</h2>
+      <label>
+        验证码：
+        <input class="border border-gray-300 p-2" id="security-reset-password-captcha" type="text">
+        <button class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
+                onclick="captcha('reset')">获取验证码
+        </button>
+      </label>
+      <br>
+      <label>
+        新密码：
+        <input class="border border-gray-300 p-2" id="security-reset-password-input" type="password">
+      </label>
+      <button class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
+              id="security-reset-password-btn"
+              onclick="resetPassword()">重置密码
+      </button>
+    </div>
+    <div class="card p-4 bg-white shadow">
+      <h2 class="text-xl">注销账号</h2>
+      <label>
+        验证码：
+        <input class="border border-gray-300 p-2" id="security-cancel-account-captcha" type="text">
+        <button class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
+                onclick="captcha('cancel')">获取验证码
+        </button>
+      </label>
+      <br>
+      <label>
+        密码：
+        <input class="border border-gray-300 p-2" id="security-cancel-account-password" type="password">
+      </label>
+      <button class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
+              id="security-cancel-account-btn"
+              onclick="cancelAccount()">注销账号
+      </button>
+    </div>
+  </div>
 
-	<!-- Hutao Cloud -->
-	<div class="flex-1 p-4 hutao-cloud tab-div" id="hutao-cloud" style="display: none">
-		<h1 class="text-2xl font-bold mb-4">胡桃云</h1>
-		<div class="card p-4 bg-white shadow">
-			<p><strong>胡桃云过期时间：</strong><span id="hutao-cloud-expire">Loading...</span></p>
-			<button class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
-							onclick="window.open('https://afdian.net/a/DismissedLight')">续费胡桃云
-			</button>
-		</div>
-		<div class="card p-4 bg-white shadow">
-			<h2 class="text-xl">兑换码</h2>
-			<input class="border border-gray-300 p-2" id="hutao-cloud-redeem-code-input" type="text">
-			<button class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded" onclick="redeem()">兑换
-			</button>
-		</div>
-		<div class="card p-4 bg-white shadow">
-			<h2 class="text-xl">祈愿记录</h2>
-			<div id="hutao-cloud-gacha-entries">
-			</div>
-		</div>
-	</div>
+  <!-- Hutao Cloud -->
+  <div class="flex-1 p-4 hutao-cloud tab-div" id="hutao-cloud" style="display: none">
+    <h1 class="text-2xl font-bold mb-4">胡桃云</h1>
+    <div class="card p-4 bg-white shadow">
+      <p><strong>胡桃云过期时间：</strong><span id="hutao-cloud-expire">Loading...</span></p>
+      <button class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
+              onclick="window.open('https://afdian.net/a/DismissedLight')">续费胡桃云
+      </button>
+    </div>
+    <div class="card p-4 bg-white shadow">
+      <h2 class="text-xl">兑换码</h2>
+      <input class="border border-gray-300 p-2" id="hutao-cloud-redeem-code-input" type="text">
+      <button class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded" onclick="redeem()">兑换
+      </button>
+    </div>
+    <div class="card p-4 bg-white shadow">
+      <h2 class="text-xl">祈愿记录</h2>
+      <div id="hutao-cloud-gacha-entries">
+      </div>
+    </div>
+  </div>
 
-	<!-- Management -->
-	<div class="flex-1 p-4 management tab-div" id="management" style="display: none">
-		<h1 class="text-2xl font-bold mb-4">管理工具</h1>
-		<div class="card p-4 bg-white shadow">
-			<details>
-				<summary class="text-xl">Patch</summary>
-				<button class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
-								onclick="refreshPatchMetadata()">Force refresh patch metadata
-				</button>
-				<hr>
-				<label>
-					Key
-					<select class="border border-gray-300 p-2" id="management-patch-overwrite-key">
-						<option value="snap-hutao">Snap Hutao</option>
-						<option value="snap-hutao-deployment">Snap Hutao Deployment</option>
-					</select>
-				</label>
-				<label>
-					Url
-					<input class="border border-gray-300 p-2" id="management-patch-overwrite-url">
-				</label>
-				<button class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
-								onclick="overwritePatch()">Overwrite
-				</button>
-			</details>
-		</div>
-		<div class="card p-4 bg-white shadow">
-			<details>
-				<summary class="text-xl">Hutao Cloud</summary>
-				<div style="margin-bottom: 1em">
-					<h2><strong>Compensation</strong></h2>
-					<label>
-						Days
-						<input class="border border-gray-300 p-2" id="management-compensation-days-input" type="number" value="15">
-					</label>
-					<button class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
-									onclick="compensateHutaoCloud()">Compensate
-					</button>
-				</div>
-				<hr>
-				<div>
-					<h2><strong>Designation</strong></h2>
-					<label>
-						UserName
-						<input class="border border-gray-300 p-2" id="management-designation-user-input" type="text">
-					</label>
-					<label>
-						Days
-						<input class="border border-gray-300 p-2" id="management-designation-days-input" type="number" value="15">
-					</label>
-					<button class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
-									onclick="designateHutaoCloud()">Designate
-					</button>
-				</div>
-			</details>
-		</div>
-		<div class="card p-4 bg-white shadow">
-			<details>
-				<summary class="text-xl">Announcement</summary>
-				<label>
-					Title
-					<input class="border border-gray-300 p-2 w-full" id="management-ann-title" type="text">
-				</label>
-				<label>
-					Link
-					<input class="border border-gray-300 p-2 w-full" id="management-ann-link" type="text">
-				</label>
-				<label>
-					Version Threshold
-					<input class="border border-gray-300 p-2 w-full" id="management-ann-version-threshold"
-								 placeholder="Max present version (or leave empty for all) e.g. 1.9.5.0"
-								 type="text">
-				</label>
-				<label>
-					Content
-					<textarea class="border border-gray-300 p-2 w-full" id="management-ann-content" rows="5"></textarea>
-				</label>
-				<label>
-					Severity
-					<select class="border border-gray-300 p-2 w-full" id="management-ann-severity">
-						<option value="0">Informational</option>
-						<option value="1">Success</option>
-						<option value="2">Warning</option>
-						<option value="3">Error</option>
-					</select>
-				</label>
-				<button class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
-								onclick="uploadAnn()">Upload
-				</button>
-			</details>
-		</div>
-	</div>
+  <!-- Management -->
+  <div class="flex-1 p-4 management tab-div" id="management" style="display: none">
+    <h1 class="text-2xl font-bold mb-4">管理工具</h1>
+    <div class="card p-4 bg-white shadow">
+      <details>
+        <summary class="text-xl">Patch</summary>
+        <button class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
+                onclick="refreshPatchMetadata()">Force refresh patch metadata
+        </button>
+        <hr>
+        <label>
+          Key
+          <select class="border border-gray-300 p-2" id="management-patch-overwrite-key">
+            <option value="snap-hutao">Snap Hutao</option>
+            <option value="snap-hutao-deployment">Snap Hutao Deployment</option>
+          </select>
+        </label>
+        <label>
+          Url
+          <input class="border border-gray-300 p-2" id="management-patch-overwrite-url">
+        </label>
+        <button class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
+                onclick="overwritePatch()">Overwrite
+        </button>
+      </details>
+    </div>
+    <div class="card p-4 bg-white shadow">
+      <details>
+        <summary class="text-xl">Hutao Cloud</summary>
+        <div style="margin-bottom: 1em">
+          <h2><strong>Compensation</strong></h2>
+          <label>
+            Days
+            <input class="border border-gray-300 p-2" id="management-compensation-days-input" type="number" value="15">
+          </label>
+          <button class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
+                  onclick="compensateHutaoCloud()">Compensate
+          </button>
+        </div>
+        <hr>
+        <div>
+          <h2><strong>Designation</strong></h2>
+          <label>
+            UserName
+            <input class="border border-gray-300 p-2" id="management-designation-user-input" type="text">
+          </label>
+          <label>
+            Days
+            <input class="border border-gray-300 p-2" id="management-designation-days-input" type="number" value="15">
+          </label>
+          <button class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
+                  onclick="designateHutaoCloud()">Designate
+          </button>
+        </div>
+      </details>
+    </div>
+    <div class="card p-4 bg-white shadow">
+      <details>
+        <summary class="text-xl">Announcement</summary>
+        <label>
+          Title
+          <input class="border border-gray-300 p-2 w-full" id="management-ann-title" type="text">
+        </label>
+        <label>
+          Link
+          <input class="border border-gray-300 p-2 w-full" id="management-ann-link" type="text">
+        </label>
+        <label>
+          Version Threshold
+          <input class="border border-gray-300 p-2 w-full" id="management-ann-version-threshold"
+                 placeholder="Max present version (or leave empty for all) e.g. 1.9.5.0"
+                 type="text">
+        </label>
+        <label>
+          Content
+          <textarea class="border border-gray-300 p-2 w-full" id="management-ann-content" rows="5"></textarea>
+        </label>
+        <label>
+          Severity
+          <select class="border border-gray-300 p-2 w-full" id="management-ann-severity">
+            <option value="0">Informational</option>
+            <option value="1">Success</option>
+            <option value="2">Warning</option>
+            <option value="3">Error</option>
+          </select>
+        </label>
+        <button class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
+                onclick="uploadAnn()">Upload
+        </button>
+      </details>
+    </div>
+  </div>
 </div>
 
 <script src="js/cookie.js"></script>
