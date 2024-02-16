@@ -1,4 +1,11 @@
 /**
+ * @typedef {object} BaseResponse
+ * @property {int} retcode - Return code
+ * @property {string} message - Message
+ * @property {object} data - Data
+ */
+
+/**
  * @typedef {object} UserInfo
  * @property {string} UserName - Original username
  * @property {string} NormalizedUserName - Upper username
