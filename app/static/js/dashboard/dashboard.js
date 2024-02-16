@@ -39,30 +39,38 @@ function setSidebarUserInfo(userInfo) {
 	document.getElementById("nav-management").style.display = (userInfo.data.IsLicensedDeveloper || userInfo.data.IsMaintainer) ? 'block' : 'none';
 }
 
+/**
+ * @param callback userInfo => {}
+ */
+function updateLocalUserInfo(callback) {
+	fetch("https://homa.snapgenshin.com/Passport/UserInfo", {
+		headers: {
+			"Authorization": BearerWrap(getToken())
+		}
+	})
+		.then(response => response.json())
+		.then(data => {
+			let userInfo = JSON.stringify(data);
+			localStorage.setItem("userInfo", userInfo);
+			localStorage.setItem("userInfoExpire", (Date.now() + 1000 * 60 * 60 * 3).toString());
+
+			callback(data)
+		})
+		.catch(error => console.log(error));
+}
+
 window.onload = function () {
 	// init user info
 	let token = getToken();
 	if (!token) {
+		localStorage.clear()
 		window.location.href = "login.html";
 	}
 
 	if (!localStorage.getItem("userInfoExpire") || Date.now() >= parseInt(localStorage.getItem("userInfoExpire"))) {
 		localStorage.removeItem("userInfo")
 
-		fetch("https://homa.snapgenshin.com/Passport/UserInfo", {
-			headers: {
-				"Authorization": BearerWrap(token)
-			}
-		})
-			.then(response => response.json())
-			.then(data => {
-				let userInfo = JSON.stringify(data);
-				localStorage.setItem("userInfo", userInfo);
-				localStorage.setItem("userInfoExpire", (Date.now() + 1000 * 60 * 60 * 3).toString());
-
-				setSidebarUserInfo(data)
-			})
-			.catch(error => console.log(error));
+		updateLocalUserInfo(userInfo => setSidebarUserInfo(userInfo))
 	} else {
 		setSidebarUserInfo(JSON.parse(localStorage.getItem("userInfo")))
 	}

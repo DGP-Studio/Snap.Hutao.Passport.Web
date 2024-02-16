@@ -22,6 +22,9 @@ function redeem() {
 		.then(data => {
 			if (data.status === 200) {
 				alert("兑换成功");
+				updateLocalUserInfo(userInfo => {
+					document.getElementById("hutao-cloud-expire").textContent = new Date(userInfo.data.GachaLogExpireAt).toLocaleString();
+				})
 			} else {
 				alert("兑换失败：" + data.message);
 			}
