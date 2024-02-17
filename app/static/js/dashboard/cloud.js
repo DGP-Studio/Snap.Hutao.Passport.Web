@@ -9,19 +9,19 @@ function redeem() {
   let redeemCode = document.getElementById("hutao-cloud-redeem-code-input").value;
 
   // TODO: Migrate to passport redemption system
-  fetch("https://homa.snapgenshin.com/code/user/use", {
+  fetch("https://passport.snapgenshin.cn/redemption/use", {
     method: "POST",
     headers: {
+      "Authorization": BearerWrap(getToken()),
       "Content-Type": "application/json"
     },
     body: JSON.stringify({
-      username: localStorage.getItem("userEmail"),
       code: redeemCode
     })
   })
     .then(response => response.json())
     .then(data => {
-      if (data.status === 200) {
+      if (data.retcode === 0) {
         alert("兑换成功");
         updateLocalUserInfo(userInfo => {
           document.getElementById("hutao-cloud-expire").textContent = new Date(userInfo.data.GachaLogExpireAt).toLocaleString();
