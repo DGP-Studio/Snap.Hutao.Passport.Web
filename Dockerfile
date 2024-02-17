@@ -6,6 +6,7 @@ ADD . /code
 RUN pip install fastapi["all"]
 RUN pip install sqlalchemy
 RUN pip install pymysql
+RUN pip install cryptography
 RUN pip install pycryptodome
 RUN pip install "redis[hiredis]"
 #RUN pip install --no-cache-dir -r /code/requirements.txt
@@ -17,5 +18,6 @@ FROM ubuntu:22.04 AS runtime
 WORKDIR /app
 COPY --from=builder /code/dist/main .
 COPY /app/static /app/app/static
+COPY ./.env /app/
 EXPOSE 80
 ENTRYPOINT ["./main"]
