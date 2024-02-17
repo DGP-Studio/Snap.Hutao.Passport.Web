@@ -1,7 +1,7 @@
 version: '3.8'
 
 services:
-  web:
+  passport-web:
     build:
       context: .
       dockerfile: Dockerfile
@@ -13,6 +13,14 @@ services:
     restart: unless-stopped
     depends_on:
       - tunnel
+      - redis
+
+  redis:
+    container_name: Snap-Hutao-Passport-Redis
+    image: redis:latest
+    volumes:
+      - ./redis:/data
+    restart: unless-stopped
 
   tunnel:
     container_name: Snap-Hutao-Passport-Web-Tunnel
