@@ -8,7 +8,6 @@ function showHutaoCloud() {
 function redeem() {
   let redeemCode = document.getElementById("hutao-cloud-redeem-code-input").value;
 
-  // TODO: Migrate to passport redemption system
   fetch("https://passport.snapgenshin.cn/api/redemption/use", {
     method: "POST",
     headers: {
@@ -22,7 +21,7 @@ function redeem() {
     .then(response => response.json())
     .then(data => {
       if (data.retcode === 0) {
-        alert("兑换成功");
+        alert(`兑换成功，到期时间已增加 ${data.data.value} 天`);
         updateLocalUserInfo(userInfo => {
           document.getElementById("hutao-cloud-expire").textContent = new Date(userInfo.data.GachaLogExpireAt).toLocaleString();
         })
