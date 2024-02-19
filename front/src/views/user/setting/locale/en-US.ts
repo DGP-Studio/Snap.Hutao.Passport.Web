@@ -19,9 +19,13 @@ export default {
   'userSetting.reset': 'Reset',
   // new
   'userSetting.label.certification': 'Certification',
+  'userSetting.label.role': 'Role',
+  'userSetting.label.maintainer' : 'Admin',
+  'userSetting.label.user': 'User',
   'userSetting.label.phone': 'Phone',
   'userSetting.label.accountId': 'Account Id',
   'userSetting.label.registrationDate': 'Registration Date',
+  'userSetting.label.gachaLogExpireAt': 'Service Expiration',
   'userSetting.tab.basicInformation': 'Basic Information',
   'userSetting.tab.securitySettings': 'Security Settings',
   'userSetting.tab.certification': 'Certification',
@@ -47,7 +51,9 @@ export default {
   'userSetting.form.error.profile.maxLength': 'No more than 200 words',
   'userSetting.SecuritySettings.form.label.password': 'Login Password',
   'userSetting.SecuritySettings.placeholder.password':
-    'Has been set. The password must contain at least six letters, digits, and special characters except Spaces. The password must contain both uppercase and lowercase letters.',
+    'Has been set',
+  'userSetting.SecuritySettings.form.label.github': 'Github',
+  'userSetting.SecuritySettings.placeholder.github': 'No Github account bound',
   'userSetting.SecuritySettings.form.label.securityQuestion':
     'Security Question',
   'userSetting.SecuritySettings.placeholder.securityQuestion':

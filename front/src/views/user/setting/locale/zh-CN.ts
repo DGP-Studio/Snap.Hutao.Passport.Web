@@ -19,9 +19,13 @@ export default {
   'userSetting.reset': '重置',
   // new
   'userSetting.label.certification': '实名认证',
+  'userSetting.label.role': '角色',
+  'userSetting.label.maintainer' : '管理员',
+  'userSetting.label.user': '普通用户',
   'userSetting.label.phone': '手机号码',
   'userSetting.label.accountId': '账号ID',
   'userSetting.label.registrationDate': '注册时间',
+  'userSetting.label.gachaLogExpireAt': '服务过期时间',
   'userSetting.tab.basicInformation': '基础信息',
   'userSetting.tab.securitySettings': '安全设置',
   'userSetting.tab.certification': '实名认证',
@@ -45,7 +49,9 @@ export default {
   'userSetting.form.error.profile.maxLength': '最多不超过200字',
   'userSetting.SecuritySettings.form.label.password': '登录密码',
   'userSetting.SecuritySettings.placeholder.password':
-    '已设置。密码至少6位字符，支持数字、字母和除空格外的特殊字符，且必须同时包含数字和大小写字母。',
+    '已设置',
+  'userSetting.SecuritySettings.form.label.github': 'Github',
+  'userSetting.SecuritySettings.placeholder.github': '暂未绑定 Github 账号',
   'userSetting.SecuritySettings.form.label.securityQuestion': '密保问题',
   'userSetting.SecuritySettings.placeholder.securityQuestion':
     '您暂未设置密保问题，密保问题可以有效的保护账号的安全。',

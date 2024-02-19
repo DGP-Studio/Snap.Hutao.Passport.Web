@@ -74,20 +74,20 @@
       label: 'userSetting.label.name',
       value: userStore.UserName,
     },
+    // {
+    //   label: 'userSetting.label.role',
+    //   value: userStore.IsMaintainer,
+    // },
+    // {
+    //   label: 'userSetting.label.accountId',
+    //   value: userStore.NormalizedUserName,
+    // },
+    // {
+    //   label: 'userSetting.label.phone',
+    //   value: userStore.NormalizedUserName,
+    // },
     {
-      label: 'userSetting.label.certification',
-      value: userStore.IsMaintainer,
-    },
-    {
-      label: 'userSetting.label.accountId',
-      value: userStore.NormalizedUserName,
-    },
-    {
-      label: 'userSetting.label.phone',
-      value: userStore.NormalizedUserName,
-    },
-    {
-      label: 'userSetting.label.registrationDate',
+      label: 'userSetting.label.gachaLogExpireAt',
       value: userStore.GachaLogExpireAt,
     },
   ] as DescData[];

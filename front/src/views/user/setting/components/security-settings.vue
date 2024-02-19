@@ -25,26 +25,26 @@
       <a-list-item-meta>
         <template #avatar>
           <a-typography-paragraph>
-            {{ $t('userSetting.SecuritySettings.form.label.securityQuestion') }}
+            {{ $t('userSetting.SecuritySettings.form.label.github') }}
           </a-typography-paragraph>
         </template>
         <template #description>
           <div class="content">
             <a-typography-paragraph class="tip">
               {{
-                $t('userSetting.SecuritySettings.placeholder.securityQuestion')
+                $t('userSetting.SecuritySettings.placeholder.github')
               }}
             </a-typography-paragraph>
           </div>
           <div class="operation">
             <a-link>
-              {{ $t('userSetting.SecuritySettings.button.settings') }}
+              {{ $t('userSetting.SecuritySettings.button.update') }}
             </a-link>
           </div>
         </template>
       </a-list-item-meta>
     </a-list-item>
-    <a-list-item>
+<!--    <a-list-item>
       <a-list-item-meta>
         <template #avatar>
           <a-typography-paragraph>
@@ -85,7 +85,7 @@
           </div>
         </template>
       </a-list-item-meta>
-    </a-list-item>
+    </a-list-item>-->
   </a-list>
 </template>
 
