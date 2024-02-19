@@ -1,19 +1,25 @@
+import {getCookie, removeCookie, setCookie} from "@/utils/cookie";
+
 const TOKEN_KEY = 'token';
 
-const isLogin = () => {
-  return !!localStorage.getItem(TOKEN_KEY);
-};
-
 const getToken = () => {
-  return localStorage.getItem(TOKEN_KEY);
+  return getCookie(TOKEN_KEY);
 };
 
 const setToken = (token: string) => {
-  localStorage.setItem(TOKEN_KEY, token);
+  setCookie(TOKEN_KEY, token, 3/24)
 };
 
 const clearToken = () => {
-  localStorage.removeItem(TOKEN_KEY);
+  removeCookie(TOKEN_KEY)
 };
 
-export { isLogin, getToken, setToken, clearToken };
+const isLogin = () => {
+  return !!getToken();
+};
+
+const bearer = (token: string) => {
+  return `Bearer ${token}`;
+}
+
+export { isLogin, getToken, setToken, clearToken, bearer };

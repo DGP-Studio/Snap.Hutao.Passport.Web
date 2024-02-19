@@ -5,47 +5,30 @@ import {
   getUserInfo,
   LoginData,
 } from '@/api/user';
+import {UserInfo} from "@/types/homa";
 import { setToken, clearToken } from '@/utils/auth';
 import { removeRouteListener } from '@/utils/route-listener';
 import crypt from '@/utils/crypt';
-import { UserState } from './types';
 import useAppStore from '../app';
 
 const useUserStore = defineStore('user', {
-  state: (): UserState => ({
-    name: undefined,
-    avatar: undefined,
-    job: undefined,
-    organization: undefined,
-    location: undefined,
-    email: undefined,
-    introduction: undefined,
-    personalWebsite: undefined,
-    jobName: undefined,
-    organizationName: undefined,
-    locationName: undefined,
-    phone: undefined,
-    registrationDate: undefined,
-    accountId: undefined,
-    certification: undefined,
-    role: '',
+  state: (): UserInfo => ({
+    UserName: "",
+    NormalizedUserName: "",
+    IsLicensedDeveloper: false,
+    IsMaintainer: false,
+    GachaLogExpireAt: ""
   }),
 
   getters: {
-    userInfo(state: UserState): UserState {
+    userInfo(state: UserInfo): UserInfo {
       return { ...state };
     },
   },
 
   actions: {
-    switchRoles() {
-      return new Promise((resolve) => {
-        this.role = this.role === 'user' ? 'admin' : 'user';
-        resolve(this.role);
-      });
-    },
     // Set user's information
-    setInfo(partial: Partial<UserState>) {
+    setInfo(partial: Partial<UserInfo>) {
       this.$patch(partial);
     },
 
@@ -73,6 +56,7 @@ const useUserStore = defineStore('user', {
         throw err;
       }
     },
+
     logoutCallBack() {
       const appStore = useAppStore();
       this.resetInfo();
@@ -80,6 +64,7 @@ const useUserStore = defineStore('user', {
       removeRouteListener();
       appStore.clearServerMenu();
     },
+
     // Logout
     async logout() {
       try {

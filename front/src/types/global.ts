@@ -35,3 +35,9 @@ export interface GeneralChart {
   xAxis: string[];
   data: Array<{ name: string; value: number[] }>;
 }
+
+export interface BaseResponse<T> {
+  retcode: number,
+  message: string,
+  data: T
+}

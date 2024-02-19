@@ -1,6 +1,6 @@
 <template>
   <div class="container">
-    <Breadcrumb :items="['menu.user', 'menu.user.redeem']" />
+    <Breadcrumb :items="['menu.user', 'menu.user.redeem']"/>
     <a-row style="margin-bottom: 16px">
       <a-col :span="24">
         <a-card :bordered="false">
@@ -12,14 +12,15 @@
             :wrapper-col-props="{ span: 16 }"
           >
             <a-form-item
-              field="email"
-              :label="$t('userRedeem.form.code')"
+              field="code"
               :rules="[
                 {
+                  length: 18,
                   required: true,
                   message: $t('userRedeem.form.error.code.required'),
                 },
               ]"
+              :label="$t('userRedeem.form.code')"
             >
               <a-input
                 v-model="formData.code"
@@ -45,56 +46,59 @@
 </template>
 
 <script lang="ts" setup>
-  import { ref } from 'vue';
-  import { FormInstance } from '@arco-design/web-vue/es/form';
+import {ref} from 'vue';
+import {FormInstance} from '@arco-design/web-vue/es/form';
+import {redeem} from "@/api/cloud";
 
-  const formRef = ref<FormInstance>();
+const formRef = ref<FormInstance>();
 
-  export interface RedeemModel {
-    code: string;
+interface RedeemModel {
+  code: string;
+}
+
+const formData = ref<RedeemModel>({
+  code: '',
+});
+const validate = async () => {
+  const res = await formRef.value?.validate();
+  if (!res) {
+    const {data: result} = await redeem({code: formData.value.code})
+    alert(`兑换成功，到期时间已增加 ${result.value} 天`)
+    // do some thing
+    // you also can use html-type to submit
   }
-
-  const formData = ref<RedeemModel>({
-    code: '',
-  });
-  const validate = async () => {
-    const res = await formRef.value?.validate();
-    if (!res) {
-      // do some thing
-      // you also can use html-type to submit
-    }
-  };
-  // const reset = async () => {
-  //   await formRef.value?.resetFields();
-  // };
+};
+// const reset = async () => {
+//   await formRef.value?.resetFields();
+// };
 </script>
 
 <script lang="ts">
-  export default {
-    name: 'Redeem',
-  };
+export default {
+  name: 'Redeem',
+};
 </script>
 
 <style scoped lang="less">
-  .container {
-    padding: 0 20px 20px;
-  }
+.container {
+  padding: 0 20px 20px;
+}
 
-  .wrapper {
-    min-height: 580px;
-    padding: 20px 0 0 20px;
-    background-color: var(--color-bg-2);
-    border-radius: 4px;
-  }
+.wrapper {
+  min-height: 580px;
+  padding: 20px 0 0 20px;
+  background-color: var(--color-bg-2);
+  border-radius: 4px;
+}
 
-  :deep(.section-title) {
-    margin-top: 0;
-    margin-bottom: 16px;
-    font-size: 14px;
-  }
+:deep(.section-title) {
+  margin-top: 0;
+  margin-bottom: 16px;
+  font-size: 14px;
+}
 
-  .form {
-    width: 540px;
-    margin: 0 auto;
-  }
+.form {
+  width: 540px;
+  margin: 0 auto;
+}
 </style>
