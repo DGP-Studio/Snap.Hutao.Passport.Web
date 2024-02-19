@@ -13,16 +13,6 @@ const USER: AppRouteRecordRaw = {
   },
   children: [
     {
-      path: 'redeem',
-      name: 'Redeem',
-      component: () => import('@/views/user/redeem/index.vue'),
-      meta: {
-        locale: 'menu.user.redeem',
-        requiresAuth: true,
-        roles: ['*'],
-      },
-    },
-    {
       path: 'setting',
       name: 'Setting',
       component: () => import('@/views/user/setting/index.vue'),
@@ -32,6 +22,17 @@ const USER: AppRouteRecordRaw = {
         roles: ['*'],
       },
     },
+    {
+      path: 'redeem',
+      name: 'Redeem',
+      component: () => import('@/views/user/redeem/index.vue'),
+      meta: {
+        locale: 'menu.user.redeem',
+        requiresAuth: true,
+        roles: ['*'],
+      },
+    },
+
   ],
 };
 
