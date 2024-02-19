@@ -16,7 +16,6 @@ export default mergeConfig(
     ],
     build: {
       rollupOptions: {
-        external: ['node-forge'],
         output: {
           manualChunks: {
             arco: ['@arco-design/web-vue'],
