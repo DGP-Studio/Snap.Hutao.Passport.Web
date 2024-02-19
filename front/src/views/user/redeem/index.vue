@@ -33,9 +33,9 @@
                 <a-button type="primary" @click="validate">
                   {{ $t('userRedeem.form.submit') }}
                 </a-button>
-                <!--                <a-button type="secondary" @click="reset">
+                <a-button type="secondary" @click="reset">
                   {{ $t('userRedeem.form.reset') }}
-                </a-button>-->
+                </a-button>
               </a-space>
             </a-form-item>
           </a-form>
@@ -49,6 +49,7 @@
 import {ref} from 'vue';
 import {FormInstance} from '@arco-design/web-vue/es/form';
 import {redeem} from "@/api/hutao";
+import {Message} from "@arco-design/web-vue";
 
 const formRef = ref<FormInstance>();
 
@@ -63,14 +64,13 @@ const validate = async () => {
   const res = await formRef.value?.validate();
   if (!res) {
     const {data: result} = await redeem({code: formData.value.code})
-    alert(`兑换成功，到期时间已增加 ${result.value} 天`)
-    // do some thing
-    // you also can use html-type to submit
+    Message.success(`兑换成功，到期时间已增加 ${result.value} 天`)
+    // TODO: Refresh expire time
   }
 };
-// const reset = async () => {
-//   await formRef.value?.resetFields();
-// };
+const reset = async () => {
+  formRef.value?.resetFields();
+};
 </script>
 
 <script lang="ts">
