@@ -2,10 +2,9 @@ import { defineStore } from 'pinia';
 import {
   login as userLogin,
   // logout as userLogout,
-  getUserInfo,
-  LoginData,
-} from '@/api/user';
-import {UserInfo} from "@/types/homa";
+  getUserInfo
+} from '@/api/hutao';
+import {PassportRequest, UserInfo} from "@/types/hutao";
 import { setToken, clearToken } from '@/utils/auth';
 import { removeRouteListener } from '@/utils/route-listener';
 import {rsaEncrypt} from '@/utils/crypt';
@@ -45,7 +44,7 @@ const useUserStore = defineStore('user', {
     },
 
     // Login
-    async login(loginForm: LoginData) {
+    async login(loginForm: PassportRequest) {
       try {
         loginForm.UserName = rsaEncrypt(loginForm.UserName);
         loginForm.Password = rsaEncrypt(loginForm.Password);

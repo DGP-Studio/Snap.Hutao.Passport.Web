@@ -48,7 +48,7 @@
 <script lang="ts" setup>
 import {ref} from 'vue';
 import {FormInstance} from '@arco-design/web-vue/es/form';
-import {redeem} from "@/api/cloud";
+import {redeem} from "@/api/hutao";
 
 const formRef = ref<FormInstance>();
 

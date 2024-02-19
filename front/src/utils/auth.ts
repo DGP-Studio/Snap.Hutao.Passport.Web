@@ -18,8 +18,4 @@ const isLogin = () => {
   return !!getToken();
 };
 
-const bearer = (token: string) => {
-  return `Bearer ${token}`;
-}
-
-export { isLogin, getToken, setToken, clearToken, bearer };
+export { isLogin, getToken, setToken, clearToken };

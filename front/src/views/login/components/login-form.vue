@@ -72,7 +72,7 @@
   import { useStorage } from '@vueuse/core';
   import { useUserStore } from '@/store';
   import useLoading from '@/hooks/loading';
-  import type { LoginData } from '@/api/user';
+  import {PassportRequest} from "@/types/hutao";
 
   const router = useRouter();
   const { t } = useI18n();
@@ -105,7 +105,7 @@
         Password: values.password,
       };
       try {
-        await userStore.login(user as LoginData);
+        await userStore.login(user as PassportRequest);
         const { redirect, ...othersQuery } = router.currentRoute.value.query;
         router.push({
           name: (redirect as string) || 'Workplace',
