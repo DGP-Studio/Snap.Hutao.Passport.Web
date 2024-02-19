@@ -8,7 +8,7 @@ import {
 import {UserInfo} from "@/types/homa";
 import { setToken, clearToken } from '@/utils/auth';
 import { removeRouteListener } from '@/utils/route-listener';
-import crypt from '@/utils/crypt';
+import {rsaEncrypt} from '@/utils/crypt';
 import useAppStore from '../app';
 
 const useUserStore = defineStore('user', {
@@ -47,8 +47,8 @@ const useUserStore = defineStore('user', {
     // Login
     async login(loginForm: LoginData) {
       try {
-        loginForm.UserName = crypt(loginForm.UserName);
-        loginForm.Password = crypt(loginForm.Password);
+        loginForm.UserName = rsaEncrypt(loginForm.UserName);
+        loginForm.Password = rsaEncrypt(loginForm.Password);
         const res = await userLogin(loginForm);
         setToken(res.data);
       } catch (err) {

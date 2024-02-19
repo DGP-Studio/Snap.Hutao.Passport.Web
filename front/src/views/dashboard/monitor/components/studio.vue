@@ -12,10 +12,10 @@
         <div v-if="userInfo">
           <a-space :size="12">
             <a-avatar :size="24">
-              <img :src="userInfo.avatar" />
+              <img :src="avatar" />
             </a-avatar>
             <a-typography-text>
-              {{ userInfo.name }} {{ $t('monitor.studioPreview.studio') }}
+              {{ userInfo.UserName }} {{ $t('monitor.studioPreview.studio') }}
             </a-typography-text>
           </a-space>
         </div>
@@ -29,8 +29,10 @@
 
 <script lang="ts" setup>
   import { useUserStore } from '@/store';
+  import {sha256hash} from "@/utils/crypt";
 
   const userInfo = useUserStore();
+  const avatar = "https://www.gravatar.com/avatar/" + sha256hash(userInfo.UserName)
 </script>
 
 <style scoped lang="less">

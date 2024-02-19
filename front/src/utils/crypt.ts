@@ -18,4 +18,8 @@ const rsaEncrypt = (str: string) => {
   return forge.util.encode64(encrypted);
 };
 
-export default rsaEncrypt;
+const sha256hash = (str: string) => {
+  return forge.sha256.create().update(str).digest().toHex().toString();
+}
+
+export {rsaEncrypt, sha256hash};

@@ -5,26 +5,26 @@
         <template #trigger-icon>
           <icon-camera />
         </template>
-        <img :src="userInfo.avatar" />
+        <img :src="avatar" />
       </a-avatar>
       <a-typography-title :heading="6" style="margin: 0">
-        {{ userInfo.name }}
+        {{ userInfo.UserName }}
       </a-typography-title>
       <div class="user-msg">
         <a-space :size="18">
           <div>
             <icon-user />
-            <a-typography-text>{{ userInfo.jobName }}</a-typography-text>
+            <a-typography-text>{{ userInfo.UserName }}</a-typography-text>
           </div>
           <div>
             <icon-home />
             <a-typography-text>
-              {{ userInfo.organizationName }}
+              DGP-Studio
             </a-typography-text>
           </div>
           <div>
             <icon-location />
-            <a-typography-text>{{ userInfo.locationName }}</a-typography-text>
+            <a-typography-text>{{ userInfo.UserName }}</a-typography-text>
           </div>
         </a-space>
       </div>
@@ -34,8 +34,10 @@
 
 <script lang="ts" setup>
   import { useUserStore } from '@/store';
+  import {sha256hash} from "@/utils/crypt";
 
   const userInfo = useUserStore();
+  const avatar = "https://www.gravatar.com/avatar/" + sha256hash(userInfo.UserName)
 </script>
 
 <style scoped lang="less">

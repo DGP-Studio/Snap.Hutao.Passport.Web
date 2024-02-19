@@ -11,7 +11,7 @@ export function setCookie(key: string, value: any, expires?: number): void {
   }
 }
 
-export function getCookie(key: string): string {
+export function getCookie(key: string): string | undefined {
   return Cookie.get(key)
 }
 

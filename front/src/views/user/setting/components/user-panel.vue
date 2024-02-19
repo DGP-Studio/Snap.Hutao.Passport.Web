@@ -59,33 +59,36 @@
   import { useUserStore } from '@/store';
   import { userUploadApi } from '@/api/user-center';
   import type { DescData } from '@arco-design/web-vue/es/descriptions/interface';
+  import {sha256hash} from "@/utils/crypt";
 
   const userStore = useUserStore();
+
+  const avatar = `https://www.gravatar.com/avatar/${sha256hash(userStore.UserName)}`
   const file = {
     uid: '-2',
     name: 'avatar.png',
-    url: userStore.avatar,
+    url: avatar,
   };
   const renderData = [
     {
       label: 'userSetting.label.name',
-      value: userStore.name,
+      value: userStore.UserName,
     },
     {
       label: 'userSetting.label.certification',
-      value: userStore.certification,
+      value: userStore.IsMaintainer,
     },
     {
       label: 'userSetting.label.accountId',
-      value: userStore.accountId,
+      value: userStore.NormalizedUserName,
     },
     {
       label: 'userSetting.label.phone',
-      value: userStore.phone,
+      value: userStore.NormalizedUserName,
     },
     {
       label: 'userSetting.label.registrationDate',
-      value: userStore.registrationDate,
+      value: userStore.GachaLogExpireAt,
     },
   ] as DescData[];
   const fileList = ref<FileItem[]>([file]);

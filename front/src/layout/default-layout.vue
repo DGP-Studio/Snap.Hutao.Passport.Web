@@ -87,9 +87,9 @@
     appStore.updateSettings({ menuCollapse: val });
   };
   watch(
-    () => userStore.role,
+    () => userStore.IsLicensedDeveloper || userStore.IsMaintainer,
     (roleValue) => {
-      if (roleValue && !permission.accessRouter(route))
+      if (roleValue)
         router.push({ name: 'notFound' });
     }
   );
