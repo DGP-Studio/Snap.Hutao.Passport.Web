@@ -44,9 +44,11 @@
     </a-list-item>
     <a-list-item>
       <div class="content">
-        <a-button type="primary" status="danger">
-          {{ $t('userSetting.SecuritySettings.button.cancelAccount') }}
-        </a-button>
+        <a-popconfirm :content="$t('userSetting.SecuritySettings.popconfirm.cancelAccount')">
+          <a-button type="primary" status="danger">
+            {{ $t('userSetting.SecuritySettings.button.cancelAccount') }}
+          </a-button>
+        </a-popconfirm>
       </div>
     </a-list-item>
     <!--    <a-list-item>

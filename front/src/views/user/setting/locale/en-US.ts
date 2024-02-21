@@ -66,6 +66,8 @@ export default {
   'userSetting.SecuritySettings.button.settings': 'Settings',
   'userSetting.SecuritySettings.button.update': 'Update',
   'userSetting.SecuritySettings.button.cancelAccount': 'Cancel Account',
+  'userSetting.SecuritySettings.popconfirm.cancelAccount':
+    'This action cannot be reversed, are you sure',
   'userSetting.certification.title.enterprise':
     'Enterprise Real Name Authentication',
   'userSetting.certification.extra.enterprise':

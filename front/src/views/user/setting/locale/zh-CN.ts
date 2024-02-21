@@ -62,6 +62,8 @@ export default {
   'userSetting.SecuritySettings.button.settings': '设置',
   'userSetting.SecuritySettings.button.update': '修改',
   'userSetting.SecuritySettings.button.cancelAccount': '注销账号',
+  'userSetting.SecuritySettings.popconfirm.cancelAccount':
+    '此操作无法恢复，是否继续',
   'userSetting.certification.title.enterprise': '企业实名认证',
   'userSetting.certification.extra.enterprise': '修改认证主体',
   'userSetting.certification.label.accountType': '账号类型',
