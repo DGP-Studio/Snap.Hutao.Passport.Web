@@ -53,6 +53,7 @@ export default {
   'userSetting.SecuritySettings.form.label.password': 'Login Password',
   'userSetting.SecuritySettings.placeholder.password': 'Has been set',
   'userSetting.SecuritySettings.form.label.github': 'Github',
+  'userSetting.SecuritySettings.placeholder.bind.github': 'Github account bound',
   'userSetting.SecuritySettings.placeholder.github': 'No Github account bound',
   'userSetting.SecuritySettings.form.label.securityQuestion':
     'Security Question',
@@ -65,6 +66,8 @@ export default {
     'You have not set a mailbox yet. The mailbox binding can be used to retrieve passwords and receive notifications.',
   'userSetting.SecuritySettings.button.settings': 'Settings',
   'userSetting.SecuritySettings.button.update': 'Update',
+  'userSetting.SecuritySettings.button.bind': 'Bind',
+  'userSetting.SecuritySettings.button.unbind': 'Unbind',
   'userSetting.SecuritySettings.button.cancelAccount': 'Cancel Account',
   'userSetting.SecuritySettings.popconfirm.cancelAccount':
     'This action cannot be reversed, are you sure',
