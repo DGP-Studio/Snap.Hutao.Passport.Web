@@ -65,6 +65,7 @@ export default {
   'userSetting.SecuritySettings.button.bind': '绑定',
   'userSetting.SecuritySettings.button.unbind': '解绑',
   'userSetting.SecuritySettings.button.cancelAccount': '注销账号',
+  'userSetting.SecuritySettings.button.verifyCode': '验证码',
   'userSetting.SecuritySettings.popconfirm.cancelAccount':
     '此操作无法恢复，是否继续',
   'userSetting.certification.title.enterprise': '企业实名认证',
